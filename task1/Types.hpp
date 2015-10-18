@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ostream>
 #include <cassert>
+#include <inttypes.h>
 //---------------------------------------------------------------------------
 // HyPer
 // (c) Thomas Neumann 2010
