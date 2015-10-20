@@ -2,7 +2,8 @@
 
 
 void newOrder ( Integer w_id, Integer d_id, Integer c_id, Integer items, Integer* supware, Integer* itemid, Integer* qty, Timestamp datetime)
-{/*
+{
+    /*
    //select w_tax from warehouse w where w.w_id=w_id;
    //select c_discount from customer c where c_w_id=w_id and c_d_id=d_id and c.c_id=c_id;
    //select d_next_o_id as o_id,d_tax from district d where d_w_id=w_id and d.d_id=d_id;

@@ -1,4 +1,5 @@
 #include "Types.hpp"
+#include <iostream>
 //---------------------------------------------------------------------------
 #include <ctime>
 //---------------------------------------------------------------------------
@@ -33,6 +34,7 @@ Integer Integer::castString(const char* str,uint32_t strLen)
       }
    }
 
+   
    // Parse
    if (iter==limit)
       throw "invalid number format: found non-integer characters";
@@ -161,6 +163,17 @@ Date Date::castString(const char* str,uint32_t strLen)
 Timestamp Timestamp::castString(const char* str,uint32_t strLen)
    // Cast a string to a timestamp value
 {
+   
+   if ((strLen==4)&&(strncmp(str,"NULL",4)==0))
+      return null();
+   
+   
+   if (1)
+   {
+        Timestamp t(Integer::castString(str, strLen));
+        return t;
+   }
+    
    if ((strLen==4)&&(strncmp(str,"NULL",4)==0))
       return null();
 
@@ -169,7 +182,6 @@ Timestamp Timestamp::castString(const char* str,uint32_t strLen)
    // Trim WS
    while ((iter!=limit)&&((*iter)==' ')) ++iter;
    while ((iter!=limit)&&((*(limit-1))==' ')) --limit;
-
    // Year
    unsigned year=0;
    while (true) {
@@ -180,6 +192,7 @@ Timestamp Timestamp::castString(const char* str,uint32_t strLen)
          year=10*year+(c-'0');
       } else throw "invalid timestamp format";
    }
+       cout << "here" << endl;
    // Month
    unsigned month=0;
    while (true) {
