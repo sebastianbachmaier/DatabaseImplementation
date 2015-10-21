@@ -4,7 +4,7 @@
 #include "Types.hpp"
 #include <typeinfo>
 #include <map>
-#define USETUPLES 1
+#define USETUPLES 0
 using namespace std;
 
 
@@ -332,7 +332,7 @@ using namespace std;
         Char<2> w_state;
         Char<9> w_zip;
         Numeric<4, 4> w_tax;
-        Numeric<4, 4> w_ytd;
+        Numeric<12, 2> w_ytd;
 
     };
 
@@ -347,7 +347,7 @@ using namespace std;
         Char<2>* w_state;
         Char<9>* w_zip;
         Numeric<4, 4>* w_tax;
-        Numeric<4, 4>* w_ytd;
+        Numeric<12, 2>* w_ytd;
 
     };
     
