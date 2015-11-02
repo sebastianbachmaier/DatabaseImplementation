@@ -1,0 +1,2 @@
+
+Hashoin (no primary index nested loop join)

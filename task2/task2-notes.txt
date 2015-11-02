@@ -1,0 +1,13 @@
+ 
+to delete: put last tuple there, update index
+prefix lookups -> single primary key lookup for multi primary keys (part of the homework)
+do not use templates
+
+compile with
+g++ -03 -g -f sanitize=address
+
+
+unordered map/map colum store
+for index, unordered multimap
+map<tuple<int,int,int>>,uint64_t> 
+lower_bound({w_id,u_id,Int_min})
