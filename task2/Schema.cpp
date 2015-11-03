@@ -106,11 +106,13 @@ std::string Schema::toCpp() const {
    out << "#include <vector>" << std::endl;
    out << "#include <string>" << std::endl;
    out << "#include <map>" << std::endl;
+   out << "#include <unordered_map>" << std::endl;
    out << "#include <fstream>" << std::endl;
    out << "#include <sstream>" << std::endl;
    out << "#include <exception>" <<  std::endl;
    out << "#include \"Types.hpp\"" << std::endl;
    out << "#include <chrono>" << std::endl;
+   
    
    out << "using namespace std::chrono;" << std::endl;
    out << "using namespace std;" << std::endl;
@@ -122,18 +124,6 @@ std::string Schema::toCpp() const {
        out << "string " << rel.name << "_name = \"" << rel.name << "\";" <<  std::endl;
    }
    out <<  std::endl;
-   
-   
-   /*
-    * 
-    * 
-    * 
-    * ROW
-    * 
-    * 
-    * 
-    * 
-    */
    
    
    
@@ -163,154 +153,7 @@ std::string Schema::toCpp() const {
    for (const Schema::Relation& rel : relations) {
        out << "std::vector<" << rel.name << "> " << rel.name << "_row_relation;" <<  std::endl;
    }
-   
-#if 0
-   /*
-    * insert
-    */
-   for (const Schema::Relation& rel : relations) {
-       out << "bool " <<  rel.name << "_insert(" << rel.name << " element){" << std::endl;
-       
-       // see if already exists
-       if (!rel.primaryKey.empty())
-       {
-        out << '\t' << "if (" << rel.name << "_primary_key" ; 
-        for (unsigned keyId :  rel.primaryKey)
-        {
-            if (!(keyId == rel.primaryKey.back()))
-            {
-                out <<  "[element." <<  rel.attributes[keyId].name << "]";
-            }else{
-                out << ".count(element." << rel.attributes[rel.primaryKey.back()].name << ")";
-            }
-        }
-        out << "==1) {"<< std::endl;
-        out << '\t' << '\t' << "return false;"<< std::endl;
-        out << '\t' << "}" << std::endl;
-       } 
-       out << '\t' << rel.name << "_row_relation.push_back(element);" <<  std::endl;
-       // primary key 
-       if (!rel.primaryKey.empty())
-       {
-        out << '\t' << rel.name << "_primary_key";
-        for (unsigned keyId :  rel.primaryKey)
-        {
-                out  << "[element." <<  rel.attributes[keyId].name << "]";
-        }
-        out << " = "  << rel.name << "_row_relation.size()-1;" << std::endl;
-       } 
-       // index
-       for (const Schema::Index& index : indexes) {
-       
-            const Schema::Relation& rel_index = relations[index.relation];
-            if (&rel == &rel_index)
-            {
-                // There is an index on this, do something
-                out << '\t' << index.name << "_index";
-                for (unsigned attrId : index.attributes)
-                {
-                    
-                    out <<  "[element." <<  rel.attributes[attrId].name << "]";
-                }
-                out << " = "  << rel.name << "_row_relation.size();" << std::endl;
-                
-            }
-        } 
-       out << '\t' << "return true;" << std::endl;
-       out << "}" <<  std::endl;
-   }
-   
-   out <<  std::endl;
-   
-   /*
-    * delete
-    */
-   for (const Schema::Relation& rel : relations) {
-       out << "bool " <<  rel.name << "_delete(uint64_t lineNr){" << std::endl;
-       // delete from index
-       
-       for (const Schema::Index& index : indexes) {
-       
-            const Schema::Relation& rel_index = relations[index.relation];
-            if (&rel == &rel_index)
-            {
-                // There is an index on this, do something
-                out << '\t' << index.name << "_index";
-                for (unsigned attrId : index.attributes)
-                {
-                    if (!(attrId == index.attributes.back()))
-                    {
-                        out <<  "[" << rel.name << "_row_relation[lineNr]." <<  rel.attributes[attrId].name << "]";
-                    }else{
-                        out << ".erase(" <<  rel.name << "_row_relation[lineNr]."  << rel.attributes[index.attributes.back()].name << ");" << std::endl;
-                    } 
-                }
-                    
-                
-            }
-        } 
-       
-       // delete from primary index
-       out << '\t' << "if (!(lineNr < " <<  rel.name << "_row_relation.size()))" << std::endl;
-       out << '\t' << '\t' << "{ return false; }" << std::endl;
-       if (!rel.primaryKey.empty())
-       {
-       out << '\t' <<  rel.name << "_primary_key" ; 
-        for (unsigned keyId :  rel.primaryKey)
-        {
-            if (!(keyId == rel.primaryKey.back()))
-            {
-                out <<  "[" << rel.name << "_row_relation[lineNr]." <<  rel.attributes[keyId].name << "]";
-            }else{
-                out << ".erase(" <<  rel.name << "_row_relation[lineNr]."  << rel.attributes[rel.primaryKey.back()].name << ");" << std::endl;
-            }
-        }
-       }
-       
-       // get last element
-       out << '\t' << rel.name << "_row_relation[lineNr] = "<< rel.name << "_row_relation.back();" <<  std::endl;
-       out << '\t' << rel.name << "_row_relation.pop_back();" <<  std::endl;
-       if (!rel.primaryKey.empty())
-       {
-        
-        // update index
-        
-        for (const Schema::Index& index : indexes) {
-       
-            const Schema::Relation& rel_index = relations[index.relation];
-            if (&rel == &rel_index)
-            {
-                // There is an index on this, do something
-                out << '\t' << index.name << "_index";
-                for (unsigned attrId : index.attributes)
-                {
-                    
-                    out <<  "[" << rel.name << "_row_relation[lineNr]." <<  rel.attributes[attrId].name << "]";
-                }
-                out << " = lineNr;" << std::endl;
-                
-            }
-        } 
-        
-        // update primary
-        out << '\t' << rel.name << "_primary_key";
-        for (unsigned keyId :  rel.primaryKey)
-        {
-                out  << "[" <<  rel.name << "_row_relation[lineNr]." <<  rel.attributes[keyId].name << "]";
-        }
-        out << " = lineNr;" << std::endl;
-       }
-       
-       /*
-        * do some addidional indexing stuff here
-        */
-       out << '\t' << "return true;" << std::endl;
-       out << "}" <<  std::endl;
-   }
-   
-   out <<  std::endl;
-# endif
-     
+    
    
    /*
     * 
