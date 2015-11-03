@@ -7,6 +7,7 @@
 #include <cassert>
 #include <algorithm> 
 #include <inttypes.h>
+#include <cstdlib>
 //---------------------------------------------------------------------------
 // HyPer
 // (c) Thomas Neumann 2010
@@ -21,6 +22,15 @@ template<> struct LengthSwitch<4> { typedef uint32_t type; };
 template <unsigned maxLen> struct LengthIndicator {
 	typedef typename LengthSwitch<(maxLen<256)?1:(maxLen<65536)?2:4>::type type;
 };
+
+
+inline int32_t fastatoi(const char *p) {
+    int32_t val = 0;
+    while( *p ) 
+        val = val*10 + (*p++ - '0');
+    return val;
+}
+
 //---------------------------------------------------------------------------
 /// Integer class
 class Integer

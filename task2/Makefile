@@ -1,9 +1,10 @@
 CXX:=g++
-CXXFLAGS:=-std=c++11 -g -O0 -Wall
+CXXFLAGS:=-std=c++11 -g -O3 -Wall
+LIBS := -ltbb
 BUILD:=.
 FILES:=.
 
-all: parser
+all: parser tpcc
 
 Schema.o: $(FILES)/Schema.cpp $(FILES)/Schema.hpp Makefile
 	$(CXX) $(CXXFLAGS) -c $(FILES)/Schema.cpp -o $(BUILD)/Schema.o
@@ -18,7 +19,7 @@ parser: $(FILES)/Schema.o $(FILES)/Parser.o $(FILES)/Schema.hpp $(FILES)/SchemaT
 	$(CXX) $(CXXFLAGS) $(BUILD)/Parser.o $(BUILD)/Schema.o $(FILES)/main.cpp -o $(BUILD)/parser
 	
 tpcc:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/schema_generated.hpp $(FILES)/transactions.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/transactions.cpp -o $(BUILD)/tpcc -Wno-unused-function -Wno-unused-variable
+	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/transactions.cpp -o $(BUILD)/tpcc $(LIBS) -Wno-unused-function -Wno-unused-variable
 
 clean:
 	rm -rf *.o $(BUILD)/parser $(BUILD)/tpcc
