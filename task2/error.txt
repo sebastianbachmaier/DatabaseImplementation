@@ -1,0 +1,984 @@
+g++ -std=c++11 -g -O3 -Wall ./Types.o ./transactions.cpp -o ./tpcc -ltbb -Wno-unused-function -Wno-unused-variable
+In file included from /usr/include/c++/5/bits/hashtable.h:35:0,
+                 from /usr/include/c++/5/unordered_map:47,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/hashtable_policy.h: In instantiation of ‘struct std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > >’:
+/usr/include/c++/5/type_traits:137:12:   required from ‘struct std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > >’
+/usr/include/c++/5/type_traits:148:38:   required from ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’
+./schema_generated.hpp:288:55:   required from here
+/usr/include/c++/5/bits/hashtable_policy.h:85:34: error: no match for call to ‘(const std::hash<std::tuple<Integer> >) (const std::tuple<Integer>&)’
+  noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                                  ^
+In file included from /usr/include/c++/5/bits/move.h:57:0,
+                 from /usr/include/c++/5/bits/stl_pair.h:59,
+                 from /usr/include/c++/5/bits/stl_algobase.h:64,
+                 from /usr/include/c++/5/bits/char_traits.h:39,
+                 from /usr/include/c++/5/ios:40,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ./transactions.cpp:1:
+/usr/include/c++/5/type_traits: In instantiation of ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’:
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’
+./schema_generated.hpp:288:55:   required from here
+/usr/include/c++/5/type_traits:148:38: error: ‘value’ is not a member of ‘std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > >’
+     : public integral_constant<bool, !_Pp::value>
+                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’:
+./schema_generated.hpp:288:55:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer>, std::hash<std::tuple<Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+In file included from /usr/include/c++/5/bits/hashtable.h:35:0,
+                 from /usr/include/c++/5/unordered_map:47,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/hashtable_policy.h: In instantiation of ‘struct std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > >’:
+/usr/include/c++/5/type_traits:137:12:   required from ‘struct std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > >’
+/usr/include/c++/5/type_traits:148:38:   required from ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:289:54:   required from here
+/usr/include/c++/5/bits/hashtable_policy.h:85:34: error: no match for call to ‘(const std::hash<std::tuple<Integer, Integer> >) (const std::tuple<Integer, Integer>&)’
+  noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                                  ^
+In file included from /usr/include/c++/5/bits/move.h:57:0,
+                 from /usr/include/c++/5/bits/stl_pair.h:59,
+                 from /usr/include/c++/5/bits/stl_algobase.h:64,
+                 from /usr/include/c++/5/bits/char_traits.h:39,
+                 from /usr/include/c++/5/ios:40,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ./transactions.cpp:1:
+/usr/include/c++/5/type_traits: In instantiation of ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’:
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:289:54:   required from here
+/usr/include/c++/5/type_traits:148:38: error: ‘value’ is not a member of ‘std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > >’
+     : public integral_constant<bool, !_Pp::value>
+                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’:
+./schema_generated.hpp:289:54:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer>, std::hash<std::tuple<Integer, Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+In file included from /usr/include/c++/5/bits/hashtable.h:35:0,
+                 from /usr/include/c++/5/unordered_map:47,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/hashtable_policy.h: In instantiation of ‘struct std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > >’:
+/usr/include/c++/5/type_traits:137:12:   required from ‘struct std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > >’
+/usr/include/c++/5/type_traits:148:38:   required from ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:290:54:   required from here
+/usr/include/c++/5/bits/hashtable_policy.h:85:34: error: no match for call to ‘(const std::hash<std::tuple<Integer, Integer, Integer> >) (const std::tuple<Integer, Integer, Integer>&)’
+  noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                                  ^
+In file included from /usr/include/c++/5/bits/move.h:57:0,
+                 from /usr/include/c++/5/bits/stl_pair.h:59,
+                 from /usr/include/c++/5/bits/stl_algobase.h:64,
+                 from /usr/include/c++/5/bits/char_traits.h:39,
+                 from /usr/include/c++/5/ios:40,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ./transactions.cpp:1:
+/usr/include/c++/5/type_traits: In instantiation of ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’:
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:290:54:   required from here
+/usr/include/c++/5/type_traits:148:38: error: ‘value’ is not a member of ‘std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > >’
+     : public integral_constant<bool, !_Pp::value>
+                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’:
+./schema_generated.hpp:290:54:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+In file included from /usr/include/c++/5/bits/hashtable.h:35:0,
+                 from /usr/include/c++/5/unordered_map:47,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/hashtable_policy.h: In instantiation of ‘struct std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > >’:
+/usr/include/c++/5/type_traits:137:12:   required from ‘struct std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > >’
+/usr/include/c++/5/type_traits:148:38:   required from ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:293:55:   required from here
+/usr/include/c++/5/bits/hashtable_policy.h:85:34: error: no match for call to ‘(const std::hash<std::tuple<Integer, Integer, Integer, Integer> >) (const std::tuple<Integer, Integer, Integer, Integer>&)’
+  noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                                  ^
+In file included from /usr/include/c++/5/bits/move.h:57:0,
+                 from /usr/include/c++/5/bits/stl_pair.h:59,
+                 from /usr/include/c++/5/bits/stl_algobase.h:64,
+                 from /usr/include/c++/5/bits/char_traits.h:39,
+                 from /usr/include/c++/5/ios:40,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ./transactions.cpp:1:
+/usr/include/c++/5/type_traits: In instantiation of ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’:
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’
+./schema_generated.hpp:293:55:   required from here
+/usr/include/c++/5/type_traits:148:38: error: ‘value’ is not a member of ‘std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > >’
+     : public integral_constant<bool, !_Pp::value>
+                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’:
+./schema_generated.hpp:293:55:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+In file included from /usr/include/c++/5/bits/hashtable.h:35:0,
+                 from /usr/include/c++/5/unordered_map:47,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/hashtable_policy.h: In instantiation of ‘struct std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >’:
+/usr/include/c++/5/type_traits:137:12:   required from ‘struct std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > >’
+/usr/include/c++/5/type_traits:148:38:   required from ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>’
+./schema_generated.hpp:299:56:   required from here
+/usr/include/c++/5/bits/hashtable_policy.h:85:34: error: no match for call to ‘(const std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > >) (const std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >&)’
+  noexcept(declval<const _Hash&>()(declval<const _Key&>()))>
+                                  ^
+In file included from /usr/include/c++/5/bits/move.h:57:0,
+                 from /usr/include/c++/5/bits/stl_pair.h:59,
+                 from /usr/include/c++/5/bits/stl_algobase.h:64,
+                 from /usr/include/c++/5/bits/char_traits.h:39,
+                 from /usr/include/c++/5/ios:40,
+                 from /usr/include/c++/5/ostream:38,
+                 from /usr/include/c++/5/iostream:39,
+                 from ./transactions.cpp:1:
+/usr/include/c++/5/type_traits: In instantiation of ‘struct std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’:
+/usr/include/c++/5/bits/unordered_map.h:100:66:   required from ‘class std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>’
+./schema_generated.hpp:299:56:   required from here
+/usr/include/c++/5/type_traits:148:38: error: ‘value’ is not a member of ‘std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > >’
+     : public integral_constant<bool, !_Pp::value>
+                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>’:
+./schema_generated.hpp:299:56:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > > > > >’
+       equal_range(const key_type& __x) const
+       ^
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp: In function ‘bool warehouse_column_insert(warehouse)’:
+./schema_generated.hpp:302:28: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘count’
+  if (warehouse_primary_key.count(warehouse_primary_key_t(element.w_id)) != 0)
+                            ^
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:313:154: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer>, long unsigned int>)’
+  warehouse_primary_key.insert(std::pair<warehouse_primary_key_t, uint64_t>(warehouse_primary_key_t(element.w_id),warehouse_column_relation.w_id.size()-1));
+                                                                                                                                                          ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer> >; _Pred = std::equal_to<std::tuple<Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:313:154: note:   candidate expects 2 arguments, 1 provided
+  warehouse_primary_key.insert(std::pair<warehouse_primary_key_t, uint64_t>(warehouse_primary_key_t(element.w_id),warehouse_column_relation.w_id.size()-1));
+                                                                                                                                                          ^
+./schema_generated.hpp: In function ‘bool district_column_insert(district)’:
+./schema_generated.hpp:317:27: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘count’
+  if (district_primary_key.count(district_primary_key_t(element.d_w_id, element.d_id)) != 0)
+                           ^
+./schema_generated.hpp:330:168: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer>, long unsigned int>)’
+  district_primary_key.insert(std::pair<district_primary_key_t, uint64_t>(district_primary_key_t(element.d_w_id, element.d_id),district_column_relation.d_w_id.size()-1));
+                                                                                                                                                                        ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:330:168: note:   candidate expects 2 arguments, 1 provided
+  district_primary_key.insert(std::pair<district_primary_key_t, uint64_t>(district_primary_key_t(element.d_w_id, element.d_id),district_column_relation.d_w_id.size()-1));
+                                                                                                                                                                        ^
+./schema_generated.hpp: In function ‘bool customer_column_insert(customer)’:
+./schema_generated.hpp:334:27: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘count’
+  if (customer_primary_key.count(customer_primary_key_t(element.c_w_id, element.c_d_id, element.c_id)) != 0)
+                           ^
+./schema_generated.hpp:357:184: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Integer>, long unsigned int>)’
+  customer_primary_key.insert(std::pair<customer_primary_key_t, uint64_t>(customer_primary_key_t(element.c_w_id, element.c_d_id, element.c_id),customer_column_relation.c_w_id.size()-1));
+                                                                                                                                                                                        ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:357:184: note:   candidate expects 2 arguments, 1 provided
+  customer_primary_key.insert(std::pair<customer_primary_key_t, uint64_t>(customer_primary_key_t(element.c_w_id, element.c_d_id, element.c_id),customer_column_relation.c_w_id.size()-1));
+                                                                                                                                                                                        ^
+./schema_generated.hpp:358:206: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>)’
+  customer_wdl_index.insert(std::pair<customer_wdl_index_key_t, uint64_t>(customer_wdl_index_key_t(element.c_w_id, element.c_d_id, element.c_last, element.c_first), customer_column_relation.c_w_id.size()-1));
+                                                                                                                                                                                                              ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > >; _Pred = std::equal_to<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> > >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:358:206: note:   candidate expects 2 arguments, 1 provided
+  customer_wdl_index.insert(std::pair<customer_wdl_index_key_t, uint64_t>(customer_wdl_index_key_t(element.c_w_id, element.c_d_id, element.c_last, element.c_first), customer_column_relation.c_w_id.size()-1));
+                                                                                                                                                                                                              ^
+./schema_generated.hpp: In function ‘bool order_column_insert(order)’:
+./schema_generated.hpp:382:24: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘count’
+  if (order_primary_key.count(order_primary_key_t(element.o_w_id, element.o_d_id, element.o_id)) != 0)
+                        ^
+./schema_generated.hpp:392:172: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Integer>, long unsigned int>)’
+  order_primary_key.insert(std::pair<order_primary_key_t, uint64_t>(order_primary_key_t(element.o_w_id, element.o_d_id, element.o_id),order_column_relation.o_w_id.size()-1));
+                                                                                                                                                                            ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:392:172: note:   candidate expects 2 arguments, 1 provided
+  order_primary_key.insert(std::pair<order_primary_key_t, uint64_t>(order_primary_key_t(element.o_w_id, element.o_d_id, element.o_id),order_column_relation.o_w_id.size()-1));
+                                                                                                                                                                            ^
+./schema_generated.hpp:393:191: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>)’
+  order_wdc_index.insert(std::pair<order_wdc_index_key_t, uint64_t>(order_wdc_index_key_t(element.o_w_id, element.o_d_id, element.o_c_id, element.o_id), order_column_relation.o_w_id.size()-1));
+                                                                                                                                                                                               ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:393:191: note:   candidate expects 2 arguments, 1 provided
+  order_wdc_index.insert(std::pair<order_wdc_index_key_t, uint64_t>(order_wdc_index_key_t(element.o_w_id, element.o_d_id, element.o_c_id, element.o_id), order_column_relation.o_w_id.size()-1));
+                                                                                                                                                                                               ^
+./schema_generated.hpp: In function ‘bool orderline_column_insert(orderline)’:
+./schema_generated.hpp:397:28: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ has no member named ‘count’
+  if (orderline_primary_key.count(orderline_primary_key_t(element.ol_w_id, element.ol_d_id, element.ol_o_id, element.ol_number)) != 0)
+                            ^
+./schema_generated.hpp:409:213: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>)’
+  orderline_primary_key.insert(std::pair<orderline_primary_key_t, uint64_t>(orderline_primary_key_t(element.ol_w_id, element.ol_d_id, element.ol_o_id, element.ol_number),orderline_column_relation.ol_w_id.size()-1));
+                                                                                                                                                                                                                     ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:409:213: note:   candidate expects 2 arguments, 1 provided
+  orderline_primary_key.insert(std::pair<orderline_primary_key_t, uint64_t>(orderline_primary_key_t(element.ol_w_id, element.ol_d_id, element.ol_o_id, element.ol_number),orderline_column_relation.ol_w_id.size()-1));
+                                                                                                                                                                                                                     ^
+./schema_generated.hpp: In function ‘bool item_column_insert(item)’:
+./schema_generated.hpp:413:23: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘count’
+  if (item_primary_key.count(item_primary_key_t(element.i_id)) != 0)
+                       ^
+./schema_generated.hpp:420:134: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer>, long unsigned int>)’
+  item_primary_key.insert(std::pair<item_primary_key_t, uint64_t>(item_primary_key_t(element.i_id),item_column_relation.i_id.size()-1));
+                                                                                                                                      ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer> >; _Pred = std::equal_to<std::tuple<Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:420:134: note:   candidate expects 2 arguments, 1 provided
+  item_primary_key.insert(std::pair<item_primary_key_t, uint64_t>(item_primary_key_t(element.i_id),item_column_relation.i_id.size()-1));
+                                                                                                                                      ^
+./schema_generated.hpp: In function ‘bool stock_column_insert(stock)’:
+./schema_generated.hpp:424:24: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘count’
+  if (stock_primary_key.count(stock_primary_key_t(element.s_w_id, element.s_i_id)) != 0)
+                        ^
+./schema_generated.hpp:443:158: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>::insert(std::pair<std::tuple<Integer, Integer>, long unsigned int>)’
+  stock_primary_key.insert(std::pair<stock_primary_key_t, uint64_t>(stock_primary_key_t(element.s_w_id, element.s_i_id),stock_column_relation.s_w_id.size()-1));
+                                                                                                                                                              ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer>; _Tp = long unsigned int; _Hash = std::hash<std::tuple<Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer>, long unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+In file included from ./transactions.cpp:3:0:
+./schema_generated.hpp:443:158: note:   candidate expects 2 arguments, 1 provided
+  stock_primary_key.insert(std::pair<stock_primary_key_t, uint64_t>(stock_primary_key_t(element.s_w_id, element.s_i_id),stock_column_relation.s_w_id.size()-1));
+                                                                                                                                                              ^
+./schema_generated.hpp: In function ‘bool warehouse_column_delete(uint64_t)’:
+./schema_generated.hpp:449:24: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘erase’
+  warehouse_primary_key.erase(warehouse_primary_key_t(warehouse_column_relation.w_id[lineNr]));
+                        ^
+./schema_generated.hpp:460:24: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer>, long unsigned int>’ and ‘warehouse_primary_key_t {aka std::tuple<Integer>}’)
+   warehouse_primary_key[warehouse_primary_key_t(warehouse_column_relation.w_id.at(lineNr))] = lineNr;
+                        ^
+./schema_generated.hpp: In function ‘bool district_column_delete(uint64_t)’:
+./schema_generated.hpp:476:23: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  district_primary_key.erase(district_primary_key_t(district_column_relation.d_w_id[lineNr], district_column_relation.d_id[lineNr]));
+                       ^
+./schema_generated.hpp:489:23: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ and ‘district_primary_key_t {aka std::tuple<Integer, Integer>}’)
+   district_primary_key[district_primary_key_t(district_column_relation.d_w_id.at(lineNr), district_column_relation.d_id.at(lineNr))] = lineNr;
+                       ^
+./schema_generated.hpp: In function ‘bool customer_column_delete(uint64_t)’:
+./schema_generated.hpp:507:21: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>’ has no member named ‘erase’
+  customer_wdl_index.erase(customer_wdl_index_key_t(customer_column_relation.c_w_id[lineNr], customer_column_relation.c_d_id[lineNr], customer_column_relation.c_last[lineNr], customer_column_relation.c_first[lineNr]));
+                     ^
+./schema_generated.hpp:508:23: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  customer_primary_key.erase(customer_primary_key_t(customer_column_relation.c_w_id[lineNr], customer_column_relation.c_d_id[lineNr], customer_column_relation.c_id[lineNr]));
+                       ^
+./schema_generated.hpp:531:23: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ and ‘customer_primary_key_t {aka std::tuple<Integer, Integer, Integer>}’)
+   customer_primary_key[customer_primary_key_t(customer_column_relation.c_w_id.at(lineNr), customer_column_relation.c_d_id.at(lineNr), customer_column_relation.c_id.at(lineNr))] = lineNr;
+                       ^
+./schema_generated.hpp:532:21: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >, long unsigned int>’ and ‘customer_wdl_index_key_t {aka std::tuple<Integer, Integer, Varchar<16u>, Varchar<16u> >}’)
+   customer_wdl_index[customer_wdl_index_key_t(customer_column_relation.c_w_id.at(lineNr), customer_column_relation.c_d_id.at(lineNr), customer_column_relation.c_last.at(lineNr), customer_column_relation.c_first.at(lineNr))] = lineNr;
+                     ^
+./schema_generated.hpp: In function ‘bool order_column_delete(uint64_t)’:
+./schema_generated.hpp:598:18: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  order_wdc_index.erase(order_wdc_index_key_t(order_column_relation.o_w_id[lineNr], order_column_relation.o_d_id[lineNr], order_column_relation.o_c_id[lineNr], order_column_relation.o_id[lineNr]));
+                  ^
+./schema_generated.hpp:599:20: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  order_primary_key.erase(order_primary_key_t(order_column_relation.o_w_id[lineNr], order_column_relation.o_d_id[lineNr], order_column_relation.o_id[lineNr]));
+                    ^
+./schema_generated.hpp:609:20: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ and ‘order_primary_key_t {aka std::tuple<Integer, Integer, Integer>}’)
+   order_primary_key[order_primary_key_t(order_column_relation.o_w_id.at(lineNr), order_column_relation.o_d_id.at(lineNr), order_column_relation.o_id.at(lineNr))] = lineNr;
+                    ^
+./schema_generated.hpp:610:18: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ and ‘order_wdc_index_key_t {aka std::tuple<Integer, Integer, Integer, Integer>}’)
+   order_wdc_index[order_wdc_index_key_t(order_column_relation.o_w_id.at(lineNr), order_column_relation.o_d_id.at(lineNr), order_column_relation.o_c_id.at(lineNr), order_column_relation.o_id.at(lineNr))] = lineNr;
+                  ^
+./schema_generated.hpp: In function ‘bool orderline_column_delete(uint64_t)’:
+./schema_generated.hpp:625:24: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  orderline_primary_key.erase(orderline_primary_key_t(orderline_column_relation.ol_w_id[lineNr], orderline_column_relation.ol_d_id[lineNr], orderline_column_relation.ol_o_id[lineNr], orderline_column_relation.ol_number[lineNr]));
+                        ^
+./schema_generated.hpp:637:24: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ and ‘orderline_primary_key_t {aka std::tuple<Integer, Integer, Integer, Integer>}’)
+   orderline_primary_key[orderline_primary_key_t(orderline_column_relation.ol_w_id.at(lineNr), orderline_column_relation.ol_d_id.at(lineNr), orderline_column_relation.ol_o_id.at(lineNr), orderline_column_relation.ol_number.at(lineNr))] = lineNr;
+                        ^
+./schema_generated.hpp: In function ‘bool item_column_delete(uint64_t)’:
+./schema_generated.hpp:654:19: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘erase’
+  item_primary_key.erase(item_primary_key_t(item_column_relation.i_id[lineNr]));
+                   ^
+./schema_generated.hpp:661:19: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer>, long unsigned int>’ and ‘item_primary_key_t {aka std::tuple<Integer>}’)
+   item_primary_key[item_primary_key_t(item_column_relation.i_id.at(lineNr))] = lineNr;
+                   ^
+./schema_generated.hpp: In function ‘bool stock_column_delete(uint64_t)’:
+./schema_generated.hpp:673:20: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘erase’
+  stock_primary_key.erase(stock_primary_key_t(stock_column_relation.s_w_id[lineNr], stock_column_relation.s_i_id[lineNr]));
+                    ^
+./schema_generated.hpp:692:20: error: no match for ‘operator[]’ (operand types are ‘std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ and ‘stock_primary_key_t {aka std::tuple<Integer, Integer>}’)
+   stock_primary_key[stock_primary_key_t(stock_column_relation.s_w_id.at(lineNr), stock_column_relation.s_i_id.at(lineNr))] = lineNr;
+                    ^
+./transactions.cpp: In function ‘double query_fast()’:
+./transactions.cpp:399:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (uint32_t i = 0; i < customer_order_orderline.size; i++)
+                            ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>’:
+./transactions.cpp:448:93:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+./transactions.cpp: In function ‘double query()’:
+./transactions.cpp:448:93: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>::unordered_map(uint32_t&)’
+         std::unordered_map<tuple<Integer, Integer, Integer>, uint32_t> HC(customer_like_size);
+                                                                                             ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:175:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map(std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&&) [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, unsigned int> >]
+       unordered_map(unordered_map&&) = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:175:7: note:   no known conversion for argument 1 from ‘uint32_t {aka unsigned int}’ to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>&&’
+/usr/include/c++/5/bits/unordered_map.h:172:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map(const std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&) [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, unsigned int> >]
+       unordered_map(const unordered_map&) = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:172:7: note:   no known conversion for argument 1 from ‘uint32_t {aka unsigned int}’ to ‘const std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>&’
+/usr/include/c++/5/bits/unordered_map.h:132:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map() [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, unsigned int> >]
+       unordered_map() = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:132:7: note:   candidate expects 0 arguments, 1 provided
+/usr/include/c++/5/bits/unordered_map.h: In instantiation of ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >’:
+./transactions.cpp:449:109:   required from here
+/usr/include/c++/5/bits/unordered_map.h:100:66: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef __umap_hashtable<_Key, _Tp, _Hash, _Pred, _Alloc>  _Hashtable;
+                                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:107:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_type key_type;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:108:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::value_type value_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:109:48: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::mapped_type mapped_type;
+                                                ^
+/usr/include/c++/5/bits/unordered_map.h:110:43: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::hasher hasher;
+                                           ^
+/usr/include/c++/5/bits/unordered_map.h:111:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::key_equal key_equal;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:112:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::allocator_type allocator_type;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:117:45: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::pointer  pointer;
+                                             ^
+/usr/include/c++/5/bits/unordered_map.h:118:50: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_pointer const_pointer;
+                                                  ^
+/usr/include/c++/5/bits/unordered_map.h:119:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::reference  reference;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:120:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_reference const_reference;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:121:46: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::iterator  iterator;
+                                              ^
+/usr/include/c++/5/bits/unordered_map.h:122:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_iterator const_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:123:51: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::local_iterator local_iterator;
+                                                   ^
+/usr/include/c++/5/bits/unordered_map.h:124:57: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::const_local_iterator const_local_iterator;
+                                                         ^
+/usr/include/c++/5/bits/unordered_map.h:125:47: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::size_type  size_type;
+                                               ^
+/usr/include/c++/5/bits/unordered_map.h:126:52: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       typedef typename _Hashtable::difference_type difference_type;
+                                                    ^
+/usr/include/c++/5/bits/unordered_map.h:280:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       operator=(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:379:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  emplace(_Args&&... __args)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:432:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(const value_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:439:2: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+  insert(_Pair&& __x)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:499:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       insert(initializer_list<value_type> __l)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:645:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x)
+       ^
+/usr/include/c++/5/bits/unordered_map.h:649:7: error: ‘value’ is not a member of ‘std::__not_<std::__and_<std::__is_fast_hash<std::hash<std::tuple<Integer, Integer, Integer> > >, std::__detail::__is_noexcept_hash<std::tuple<Integer, Integer, Integer>, std::hash<std::tuple<Integer, Integer, Integer> > > > >’
+       equal_range(const key_type& __x) const
+       ^
+./transactions.cpp:449:109: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >::unordered_map(uint32_t&)’
+         std::unordered_map<tuple<Integer, Integer, Integer>, tuple<Integer, Integer>> HC2(customer_like_size);
+                                                                                                             ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:175:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map(std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&&) [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = std::tuple<Integer, Integer>; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> > >]
+       unordered_map(unordered_map&&) = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:175:7: note:   no known conversion for argument 1 from ‘uint32_t {aka unsigned int}’ to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >&&’
+/usr/include/c++/5/bits/unordered_map.h:172:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map(const std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>&) [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = std::tuple<Integer, Integer>; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> > >]
+       unordered_map(const unordered_map&) = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:172:7: note:   no known conversion for argument 1 from ‘uint32_t {aka unsigned int}’ to ‘const std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >&’
+/usr/include/c++/5/bits/unordered_map.h:132:7: note: candidate: std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::unordered_map() [with _Key = std::tuple<Integer, Integer, Integer>; _Tp = std::tuple<Integer, Integer>; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> > >]
+       unordered_map() = default;
+       ^
+/usr/include/c++/5/bits/unordered_map.h:132:7: note:   candidate expects 0 arguments, 1 provided
+./transactions.cpp:452:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         for (int i = 0; i < customer_like_size; i++)
+                           ^
+./transactions.cpp:464:16: error: no matching function for call to ‘std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>::insert(std::pair<std::tuple<Integer, Integer, Integer>, unsigned int>)’
+                );
+                ^
+In file included from /usr/include/c++/5/unordered_map:48:0,
+                 from ./schema_generated.hpp:5,
+                 from ./transactions.cpp:3:
+/usr/include/c++/5/bits/unordered_map.h:488:2: note: candidate: template<class _InputIterator> void std::unordered_map<_Key, _Tp, _Hash, _Pred, _Alloc>::insert(_InputIterator, _InputIterator) [with _InputIterator = _InputIterator; _Key = std::tuple<Integer, Integer, Integer>; _Tp = unsigned int; _Hash = std::hash<std::tuple<Integer, Integer, Integer> >; _Pred = std::equal_to<std::tuple<Integer, Integer, Integer> >; _Alloc = std::allocator<std::pair<const std::tuple<Integer, Integer, Integer>, unsigned int> >]
+  insert(_InputIterator __first, _InputIterator __last)
+  ^
+/usr/include/c++/5/bits/unordered_map.h:488:2: note:   template argument deduction/substitution failed:
+./transactions.cpp:464:16: note:   candidate expects 2 arguments, 1 provided
+                );
+                ^
+./transactions.cpp:479:20: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>’ has no member named ‘count’
+             if (HC.count(key)>0) {
+                    ^
+./transactions.cpp:480:37: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, unsigned int>’ has no member named ‘at’
+                 auto consumer =  HC.at(key);
+                                     ^
+./transactions.cpp:506:21: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >’ has no member named ‘count’
+             if (HC2.count(key)>0) {
+                     ^
+./transactions.cpp:507:43: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, std::tuple<Integer, Integer> >’ has no member named ‘at’
+                 auto consumer_order = HC2.at(key);
+                                           ^
+./transactions.cpp: In function ‘void newOrder(int32_t, int32_t, int32_t, int32_t, int32_t*, int32_t*, int32_t*, Timestamp)’:
+./transactions.cpp:524:75: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘at’
+     auto w_tax = warehouse_column_relation.w_tax.at(warehouse_primary_key.at(warehouse_primary_key_t(w_id)));
+                                                                           ^
+./transactions.cpp:525:83: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘at’
+     auto c_discount = customer_column_relation.c_discount.at(customer_primary_key.at(customer_primary_key_t(w_id, d_id, c_id)));
+                                                                                   ^
+./transactions.cpp:526:46: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘at’
+     uint64_t& result0 = district_primary_key.at(district_primary_key_t(w_id, d_id));
+                                              ^
+./transactions.cpp:541:73: error: ‘class std::unordered_map<std::tuple<Integer>, long unsigned int>’ has no member named ‘at’
+         auto i_price = item_column_relation.i_price.at(item_primary_key.at(item_primary_key_t(itemid[index])));
+                                                                         ^
+./transactions.cpp:542:47: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘at’
+         uint64_t& result1 = stock_primary_key.at(stock_primary_key_t(supware[index],itemid[index]));
+                                               ^
+./transactions.cpp:586:47: error: ‘class std::unordered_map<std::tuple<Integer, Integer>, long unsigned int>’ has no member named ‘at’
+         uint64_t& result2 = stock_primary_key.at(stock_primary_key_t(w_id,itemid[index]));
+                                               ^
+./transactions.cpp: In function ‘void delivery(int32_t, int32_t, Timestamp)’:
+./transactions.cpp:612:46: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘at’
+         uint64_t result1 = order_primary_key.at(order_primary_key_t(w_id, d_id, o_id));
+                                              ^
+./transactions.cpp:618:54: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer, Integer>, long unsigned int>’ has no member named ‘at’
+             uint64_t result2 = orderline_primary_key.at(orderline_primary_key_t(w_id, d_id, o_id, ol_number));
+                                                      ^
+./transactions.cpp:623:49: error: ‘class std::unordered_map<std::tuple<Integer, Integer, Integer>, long unsigned int>’ has no member named ‘at’
+         uint64_t result3 = customer_primary_key.at(customer_primary_key_t(w_id, d_id, o_c_id));
+                                                 ^
+Makefile:22: recipe for target 'tpcc' failed
+make: *** [tpcc] Error 1

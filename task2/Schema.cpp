@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <map>
+#include <set>
 
 
 #define out2 out << '\t' 
@@ -99,6 +100,8 @@ static std::string cpptype(const Schema::Relation::Attribute& attr) {
 std::string Schema::toCpp() const {
    std::stringstream out;
    
+   const std::set<std::string> str = {"neworder"};
+   
    /*
     * headers
     */
@@ -110,6 +113,7 @@ std::string Schema::toCpp() const {
    out << "#include <fstream>" << std::endl;
    out << "#include <sstream>" << std::endl;
    out << "#include <exception>" <<  std::endl;
+   out << "#include \"hash.hpp\"" <<  std::endl;
    out << "#include \"Types.hpp\"" << std::endl;
    out << "#include <chrono>" << std::endl;
    
@@ -212,8 +216,12 @@ std::string Schema::toCpp() const {
       
        if (!rel.primaryKey.empty())
        {
-            out <<  "std::map<" << pkeyt << ", uint64_t>";
+           if (str.count(rel.name) > 0) {
+            out <<  "std::map<" << pkeyt << ", uint64_t>";   
+           }else{
+            out <<  "std::unordered_map<" << pkeyt << ", uint64_t>";
   
+           }
             out << ' ' << rel.name << "_primary_key;" <<  std::endl;
        
        }
@@ -240,7 +248,11 @@ std::string Schema::toCpp() const {
    for (const Schema::Index& index : indexes) {
        
        const Schema::Relation& rel = relations[index.relation];
-       out <<  "std::map<" << ikeyt << ", uint64_t>";
+       if (str.count(rel.name) > 0) {
+        out <<  "std::map<" << ikeyt << ", uint64_t>";   
+       }else{
+        out <<  "std::unordered_map<" << ikeyt << ", uint64_t>";
+       }
        
        out << ' ' << index.name << "_index;" <<  std::endl;
    } 

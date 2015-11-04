@@ -2,9 +2,11 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
 #include <exception>
+#include "hash.hpp"
 #include "Types.hpp"
 #include <chrono>
 using namespace std::chrono;
@@ -284,19 +286,19 @@ using order_primary_key_t = std::tuple<Integer, Integer, Integer>;
 using orderline_primary_key_t = std::tuple<Integer, Integer, Integer, Integer>;
 using item_primary_key_t = std::tuple<Integer>;
 using stock_primary_key_t = std::tuple<Integer, Integer>;
-std::map<warehouse_primary_key_t, uint64_t> warehouse_primary_key;
-std::map<district_primary_key_t, uint64_t> district_primary_key;
-std::map<customer_primary_key_t, uint64_t> customer_primary_key;
+std::unordered_map<warehouse_primary_key_t, uint64_t> warehouse_primary_key;
+std::unordered_map<district_primary_key_t, uint64_t> district_primary_key;
+std::unordered_map<customer_primary_key_t, uint64_t> customer_primary_key;
 std::map<neworder_primary_key_t, uint64_t> neworder_primary_key;
-std::map<order_primary_key_t, uint64_t> order_primary_key;
-std::map<orderline_primary_key_t, uint64_t> orderline_primary_key;
-std::map<item_primary_key_t, uint64_t> item_primary_key;
-std::map<stock_primary_key_t, uint64_t> stock_primary_key;
+std::unordered_map<order_primary_key_t, uint64_t> order_primary_key;
+std::unordered_map<orderline_primary_key_t, uint64_t> orderline_primary_key;
+std::unordered_map<item_primary_key_t, uint64_t> item_primary_key;
+std::unordered_map<stock_primary_key_t, uint64_t> stock_primary_key;
 
 using customer_wdl_index_key_t = std::tuple<Integer, Integer, Varchar<16>, Varchar<16>>;
 using order_wdc_index_key_t = std::tuple<Integer, Integer, Integer, Integer>;
-std::map<customer_wdl_index_key_t, uint64_t> customer_wdl_index;
-std::map<order_wdc_index_key_t, uint64_t> order_wdc_index;
+std::unordered_map<customer_wdl_index_key_t, uint64_t> customer_wdl_index;
+std::unordered_map<order_wdc_index_key_t, uint64_t> order_wdc_index;
 bool warehouse_column_insert(warehouse element){
 	if (warehouse_primary_key.count(warehouse_primary_key_t(element.w_id)) != 0)
 		return false;
@@ -446,7 +448,7 @@ bool warehouse_column_delete(uint64_t lineNr){
 	if (lineNr >= warehouse_column_relation.w_id.size())
 		return false;
 	warehouse_primary_key.erase(warehouse_primary_key_t(warehouse_column_relation.w_id[lineNr]));
-	if (warehouse_column_relation.w_id.size() > 1 && lineNr != warehouse_column_relation.w_id.size()-1){
+	if (lineNr != warehouse_column_relation.w_id.size()-1){
 		warehouse_column_relation.w_id[lineNr] = warehouse_column_relation.w_id.back();
 		warehouse_column_relation.w_name[lineNr] = warehouse_column_relation.w_name.back();
 		warehouse_column_relation.w_street_1[lineNr] = warehouse_column_relation.w_street_1.back();
@@ -473,7 +475,7 @@ bool district_column_delete(uint64_t lineNr){
 	if (lineNr >= district_column_relation.d_id.size())
 		return false;
 	district_primary_key.erase(district_primary_key_t(district_column_relation.d_w_id[lineNr], district_column_relation.d_id[lineNr]));
-	if (district_column_relation.d_id.size() > 1 && lineNr != district_column_relation.d_id.size()-1){
+	if (lineNr != district_column_relation.d_id.size()-1){
 		district_column_relation.d_id[lineNr] = district_column_relation.d_id.back();
 		district_column_relation.d_w_id[lineNr] = district_column_relation.d_w_id.back();
 		district_column_relation.d_name[lineNr] = district_column_relation.d_name.back();
@@ -505,7 +507,7 @@ bool customer_column_delete(uint64_t lineNr){
 		return false;
 	customer_wdl_index.erase(customer_wdl_index_key_t(customer_column_relation.c_w_id[lineNr], customer_column_relation.c_d_id[lineNr], customer_column_relation.c_last[lineNr], customer_column_relation.c_first[lineNr]));
 	customer_primary_key.erase(customer_primary_key_t(customer_column_relation.c_w_id[lineNr], customer_column_relation.c_d_id[lineNr], customer_column_relation.c_id[lineNr]));
-	if (customer_column_relation.c_id.size() > 1 && lineNr != customer_column_relation.c_id.size()-1){
+	if (lineNr != customer_column_relation.c_id.size()-1){
 		customer_column_relation.c_id[lineNr] = customer_column_relation.c_id.back();
 		customer_column_relation.c_d_id[lineNr] = customer_column_relation.c_d_id.back();
 		customer_column_relation.c_w_id[lineNr] = customer_column_relation.c_w_id.back();
@@ -556,7 +558,7 @@ bool customer_column_delete(uint64_t lineNr){
 bool history_column_delete(uint64_t lineNr){
 	if (lineNr >= history_column_relation.h_c_id.size())
 		return false;
-	if (history_column_relation.h_c_id.size() > 1 && lineNr != history_column_relation.h_c_id.size()-1){
+	if (lineNr != history_column_relation.h_c_id.size()-1){
 		history_column_relation.h_c_id[lineNr] = history_column_relation.h_c_id.back();
 		history_column_relation.h_c_d_id[lineNr] = history_column_relation.h_c_d_id.back();
 		history_column_relation.h_c_w_id[lineNr] = history_column_relation.h_c_w_id.back();
@@ -580,7 +582,7 @@ bool neworder_column_delete(uint64_t lineNr){
 	if (lineNr >= neworder_column_relation.no_o_id.size())
 		return false;
 	neworder_primary_key.erase(neworder_primary_key_t(neworder_column_relation.no_w_id[lineNr], neworder_column_relation.no_d_id[lineNr], neworder_column_relation.no_o_id[lineNr]));
-	if (neworder_column_relation.no_o_id.size() > 1 && lineNr != neworder_column_relation.no_o_id.size()-1){
+	if (lineNr != neworder_column_relation.no_o_id.size()-1){
 		neworder_column_relation.no_o_id[lineNr] = neworder_column_relation.no_o_id.back();
 		neworder_column_relation.no_d_id[lineNr] = neworder_column_relation.no_d_id.back();
 		neworder_column_relation.no_w_id[lineNr] = neworder_column_relation.no_w_id.back();
@@ -596,7 +598,7 @@ bool order_column_delete(uint64_t lineNr){
 		return false;
 	order_wdc_index.erase(order_wdc_index_key_t(order_column_relation.o_w_id[lineNr], order_column_relation.o_d_id[lineNr], order_column_relation.o_c_id[lineNr], order_column_relation.o_id[lineNr]));
 	order_primary_key.erase(order_primary_key_t(order_column_relation.o_w_id[lineNr], order_column_relation.o_d_id[lineNr], order_column_relation.o_id[lineNr]));
-	if (order_column_relation.o_id.size() > 1 && lineNr != order_column_relation.o_id.size()-1){
+	if (lineNr != order_column_relation.o_id.size()-1){
 		order_column_relation.o_id[lineNr] = order_column_relation.o_id.back();
 		order_column_relation.o_d_id[lineNr] = order_column_relation.o_d_id.back();
 		order_column_relation.o_w_id[lineNr] = order_column_relation.o_w_id.back();
@@ -622,7 +624,7 @@ bool orderline_column_delete(uint64_t lineNr){
 	if (lineNr >= orderline_column_relation.ol_o_id.size())
 		return false;
 	orderline_primary_key.erase(orderline_primary_key_t(orderline_column_relation.ol_w_id[lineNr], orderline_column_relation.ol_d_id[lineNr], orderline_column_relation.ol_o_id[lineNr], orderline_column_relation.ol_number[lineNr]));
-	if (orderline_column_relation.ol_o_id.size() > 1 && lineNr != orderline_column_relation.ol_o_id.size()-1){
+	if (lineNr != orderline_column_relation.ol_o_id.size()-1){
 		orderline_column_relation.ol_o_id[lineNr] = orderline_column_relation.ol_o_id.back();
 		orderline_column_relation.ol_d_id[lineNr] = orderline_column_relation.ol_d_id.back();
 		orderline_column_relation.ol_w_id[lineNr] = orderline_column_relation.ol_w_id.back();
@@ -651,7 +653,7 @@ bool item_column_delete(uint64_t lineNr){
 	if (lineNr >= item_column_relation.i_id.size())
 		return false;
 	item_primary_key.erase(item_primary_key_t(item_column_relation.i_id[lineNr]));
-	if (item_column_relation.i_id.size() > 1 && lineNr != item_column_relation.i_id.size()-1){
+	if (lineNr != item_column_relation.i_id.size()-1){
 		item_column_relation.i_id[lineNr] = item_column_relation.i_id.back();
 		item_column_relation.i_im_id[lineNr] = item_column_relation.i_im_id.back();
 		item_column_relation.i_name[lineNr] = item_column_relation.i_name.back();
@@ -670,7 +672,7 @@ bool stock_column_delete(uint64_t lineNr){
 	if (lineNr >= stock_column_relation.s_i_id.size())
 		return false;
 	stock_primary_key.erase(stock_primary_key_t(stock_column_relation.s_w_id[lineNr], stock_column_relation.s_i_id[lineNr]));
-	if (stock_column_relation.s_i_id.size() > 1 && lineNr != stock_column_relation.s_i_id.size()-1){
+	if (lineNr != stock_column_relation.s_i_id.size()-1){
 		stock_column_relation.s_i_id[lineNr] = stock_column_relation.s_i_id.back();
 		stock_column_relation.s_w_id[lineNr] = stock_column_relation.s_w_id.back();
 		stock_column_relation.s_quantity[lineNr] = stock_column_relation.s_quantity.back();
