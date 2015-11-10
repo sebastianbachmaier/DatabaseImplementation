@@ -1,6 +1,6 @@
 #include <iostream>
 #include <chrono>
-#include "schema_generated.hpp"
+#include "schema_schema_generated.hpp"
 #include "oltp.hpp"
 #include <cstdlib>
 #include <ctime>
@@ -620,7 +620,7 @@ void delivery ( int32_t w_id, int32_t o_carrier_id, Timestamp datetime )
     }
 }
 
-#include "query4.hpp"
+#include "query5_query_generated.hpp"
 
 auto start=high_resolution_clock::now();
 double query_time = 0;
@@ -648,7 +648,7 @@ int main ( int argc,  char** argv )
     init_tbl();
     cout << "Time: " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
     
-    query4();
+    std::cout << query5();
     return 0;
     
     cout.precision ( 15 );

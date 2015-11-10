@@ -1,30 +1,31 @@
 #include <iostream>
 #include <memory>
 #include <fstream>
+#include <string>
 #include "Parser.hpp"
 #include "Schema.hpp"
 
 int main ( int argc, char* argv[] )
 {
-    /*if (argc != 2) {
-       std::cerr << "usage: " << argv[0] << " <schema file>" << std::endl;
+    if (argc != 2) {
+       std::cerr << "usage: " << argv[0] << " <schema name>" << std::endl;
        return -1;
-    }*/
+    }
 
-    const char* c = "../tpc-c/schema.sql";
+    std::string c("../tpc-c/"+std::string(argv[1])+".sql");
 
-    Parser p ( c );
+    Parser p ( c.c_str() );
     try
     {
         std::unique_ptr<Schema> schema;
         schema = p.parse();
         
-        std::cout << schema->relations.at(0).name;
-		// std::cout << schema->toCpp() << std::endl;
-        //std::ofstream schema_generated;
-        //schema_generated.open ( "schema_generated.hpp" );
-        //schema_generated << schema->toCpp();
-        //schema_generated.close();
+        //std::cout << schema->relations.at(0).name;
+		//std::cout << schema->toCpp() << std::endl;
+        std::ofstream schema_generated;
+        schema_generated.open ( std::string(argv[1])+"_schema_generated.hpp" );
+        schema_generated << schema->toCpp();
+        schema_generated.close();
     }
     catch ( ParserError& e )
     {

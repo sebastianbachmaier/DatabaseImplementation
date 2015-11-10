@@ -3,3 +3,6 @@ task2/tpcc
 task2/operator
 task2/*.o
 task2/fork
+task2/uni
+task2/*_schema_generated.hpp
+task2/*_query_generated.hpp

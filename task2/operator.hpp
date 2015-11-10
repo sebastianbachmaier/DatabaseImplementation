@@ -88,10 +88,13 @@ std::string ident(unsigned identLvl)
 
 struct QueryTree
 {
+    using infUnit = std::pair<FieldType, std::string>;
+    using informationUnitVector = std::vector<std::pair<FieldType, std::string>>;
+    using equiExprTuple = std::vector<std::pair<std::pair<FieldType, std::string>, std::pair<FieldType, std::string>>>;
     
-    static std::set<std::pair<FieldType, std::string>> condSideExpr(std::string condition, std::set<std::pair<FieldType, std::string>> &attributes, bool left)
+    static equiExprTuple condSideExpr(std::string condition, informationUnitVector &leftAttr, informationUnitVector &rightAttr)
     {
-        std::set<std::pair<FieldType, std::string>> result;
+        equiExprTuple result;
         std::string delim = " && ";
         auto start = 0U;
         auto end = condition.find(delim);
@@ -99,26 +102,47 @@ struct QueryTree
         while (true)
         {
             auto str2 = condition.substr(start, end - start);
+            
             std::string delim2 = " == ";
+            std::pair<infUnit, bool> left;
+            std::pair<infUnit, bool> right;
+            left.second = false; right.second = false;
+            std::vector<std::string> expr;
             auto start2 = 0U;
             auto end2 = str2.find(delim2);
-            if (!left)
-            {
-                if (end2 == std::string::npos)
-                break;
-                start2 = end2 + delim2.length();
-                end2 = str2.find(delim2, start2); 
-            }
-            std::string str3 = str2.substr(start2, end2);
-            for (auto& k : attributes)
-            {
-                
-                if (k.second.compare(str3) == 0)
+            expr.push_back(str2.substr(start2, end2));
+            if (end2 == std::string::npos)
+                break;                                      ///< no equation
+            start2 = end2 + delim2.length();
+            end2 = str2.find(delim2, start2);
+            expr.push_back(str2.substr(start2, end2));
+            
+            
+            for (auto& k : leftAttr)
+                if (k.second.compare(expr.back()) == 0)
                 {
-                    result.insert({k.first, k.second});
+                    left = {{k.first, expr.back()},true};
+                    expr.pop_back();
                     break;
                 }
-            }
+            for (auto& k : rightAttr)
+                if (k.second.compare(expr.back()) == 0)
+                {
+                    right = {{k.first, expr.back()},true};
+                    expr.pop_back();
+                    break;
+                } 
+            if (expr.size())    
+                for (auto& k : leftAttr)
+                    if (k.second.compare(expr.back()) == 0)
+                    {
+                        left = {{k.first, expr.back()},true};
+                        expr.pop_back();
+                        break;
+                    }
+            if (!(left.second && right.second))
+                throw;                                      ///< very bad, not suitable for equi/hash join
+            result.push_back({left.first, right.first});
             if (end == std::string::npos)
                 break;
             start = end + delim.length();
@@ -136,7 +160,7 @@ struct QueryTree
     struct Operator
     {   
         QueryTree* tree;
-        using informationUnitSet = std::vector<std::pair<FieldType, std::string>>;
+        
         uint32_t operatorId;
         QueryTree::Type type;
         std::string condition;
@@ -144,8 +168,8 @@ struct QueryTree
         /// for tablescan
         Schema::Relation* relation;
         /// Information Unit: type, name, requiredAs
-        std::vector<informationUnitSet> neededAttributes; 
-        std::vector<informationUnitSet> pushedAttributes; 
+        std::vector<informationUnitVector> neededAttributes; 
+        std::vector<informationUnitVector> pushedAttributes; 
         
         std::vector<QueryTree::Operator*> childs;
         QueryTree::Operator* parent;
@@ -194,9 +218,9 @@ struct QueryTree
                 {
                     UP << "std::unordered_map<tuple<";
                     //condSideExpr(condition, neededAttributes.at(0), true);
-                    auto& buildAttributes =   neededAttributes.at(0);
+                    auto buildAttributes = condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                     for (auto it=buildAttributes.begin(); it!=buildAttributes.end(); ++it)
-                        tree->out << it->first.to_string() << (std::next(it) != buildAttributes.end() ? ", " : "");
+                        tree->out << it->first.first.to_string() << (std::next(it) != buildAttributes.end() ? ", " : "");
                     tree->out << ">, tuple<";
                     for (auto it=pushedAttributes.at(0).begin(); it!=pushedAttributes.at(0).end(); ++it)
                         tree->out << it->first.to_string() << (std::next(it) != pushedAttributes.at(0).end() ? ", " : "");           
@@ -239,10 +263,9 @@ struct QueryTree
                     if (child == childs.at(0))
                     {
                         UP << "hashtable_op" << operatorId << ".insert({std::make_tuple(";
-                        //condSideExpr(condition, neededAttributes.at(0), true);
-                        auto& buildAttributes =  neededAttributes.at(0);
+                        auto buildAttributes =  condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                         for (auto it=buildAttributes.begin(); it!=buildAttributes.end(); ++it)
-                            tree->out << it->second << (std::next(it) != buildAttributes.end() ? ", " : "");
+                            tree->out << it->first.second << (std::next(it) != buildAttributes.end() ? ", " : "");
                         tree->out << "), std::make_tuple(";
                         for (auto it=pushedAttributes.at(0).begin(); it!=pushedAttributes.at(0).end(); ++it)
                             tree->out << it->second << (std::next(it) != pushedAttributes.at(0).end() ? ", " : ""); 
@@ -250,10 +273,9 @@ struct QueryTree
                     /// right
                     }else{ 
                         UP << "auto key" << operatorId << " = std::make_tuple(";
-                        //condSideExpr(condition, neededAttributes.at(1), true);
-                        auto& probeAttributes = neededAttributes.at(1);
+                        auto probeAttributes = condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                         for (auto it=probeAttributes.begin(); it!=probeAttributes.end(); ++it)
-                            tree->out << it->second << (std::next(it) != probeAttributes.end() ? ", " : "");
+                            tree->out << it->second.second << (std::next(it) != probeAttributes.end() ? ", " : "");
                         tree->out << ");\n";
                         UP << "if ( hashtable_op" << operatorId << ".count (key" << operatorId << ") > 0 )\n";
                         UP << "{\n";
@@ -277,10 +299,10 @@ struct QueryTree
                 }
                 case QueryTree::Type::print:
                 {
-                    for (auto& attr :  neededAttributes.at(0))
-                    {
-                        UP << "tree->out << " <<  attr.second << " << std::endl;" << std::endl;
-                    }
+                    UP << "out << ";
+                    for (auto it=neededAttributes.at(0).begin(); it!=neededAttributes.at(0).end(); ++it)
+                          tree->out  <<  it->second << (std::next(it) != neededAttributes.at(0).end() ? "<<'|'<<" : "<<");
+                    tree->out <<  "std::endl;\n";
                     break;
                 }
                 throw;
@@ -288,15 +310,15 @@ struct QueryTree
         }
         
         
-        informationUnitSet 
-        getAvailableAttributes(std::set<std::string> requ)
+        informationUnitVector 
+        getAvailableAttributes(std::vector<std::string> requestedAttributes)
         {
             if (type ==  QueryTree::Type::tablescan)
             {
                 pushedAttributes.push_back({});
                 for (auto&attr  : relation->attributes )
                     
-                    for (auto& r :  requ)
+                    for (auto& r :  requestedAttributes)
                     {
                         if (attr.name.compare(r) == 0)
                         {
@@ -309,30 +331,34 @@ struct QueryTree
             }
             else
             {
-                informationUnitSet requiredToPush;;
-                std::set<std::string> requiredAll = requ;
+                informationUnitVector confirmedAttributes;
+                std::vector<std::string> requiredAll = requestedAttributes;
                 for (auto& r : requAttributes)
-                    requiredAll.insert(r);
+                {
+                    if (!(std::find(requiredAll.begin(), requiredAll.end(), r)!= requiredAll.end()))
+                        requiredAll.push_back(r);
+                }
+                        
                 for (auto& child :  childs)
                 {
                     neededAttributes.push_back({});
                     pushedAttributes.push_back({});
-                    informationUnitSet result = child->getAvailableAttributes(requiredAll);
+                    informationUnitVector result = child->getAvailableAttributes(requiredAll);
                     for (auto& attrIt :  result)
                     {
                         
                         /// those are needed in upper operators
-                        if (requ.count(attrIt.second)>0)
+                        if (std::find(requestedAttributes.begin(), requestedAttributes.end(), attrIt.second)!= requestedAttributes.end())
                         {
                             pushedAttributes.back().push_back({attrIt.first, attrIt.second});
-                            requiredToPush.push_back({attrIt.first, attrIt.second});
+                            confirmedAttributes.push_back({attrIt.first, attrIt.second});
                         }
                         if (std::find(requAttributes.begin(), requAttributes.end(), attrIt.second)!= requAttributes.end())
                             neededAttributes.back().push_back({attrIt.first, attrIt.second});
                         
                     }
                 }
-                return requiredToPush;
+                return confirmedAttributes;
             }
             
         }
@@ -354,12 +380,12 @@ struct QueryTree
      
     std::string produce(QueryTree::Operator* head)
     {
-        //out.open( name+".hpp" );
         head->getAvailableAttributes({});
-        out << "void " << name << "()\n{\n";
+        out << "std::string " << name << "()\n{\n";
+        out << "\tstd::stringstream out;\n";
         head->produce(1);
+        out << "\treturn out.str();\n";
         out << "}\n";
-        //out.close();
         return out.str();
     }
     

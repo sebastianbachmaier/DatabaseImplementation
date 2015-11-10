@@ -1,5 +1,5 @@
 CXX:=g++
-CXXFLAGS:=-std=c++11 -g -O0 -Wall
+CXXFLAGS:=-std=c++11 -g -O3 -Wall
 LIBS := -ltbb
 BUILD:=.
 FILES:=.
@@ -24,5 +24,8 @@ tpcc:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/schema_generated.hpp $(FILES
 operator: $(FILES)/Schema.o $(FILES)/Parser.o $(FILES)/Schema.hpp $(FILES)/SchemaTypes.hpp $(FILES)/querygenerator.cpp $(FILES)/operator.hpp Makefile
 	$(CXX) $(CXXFLAGS) $(BUILD)/Parser.o $(BUILD)/Schema.o $(FILES)/querygenerator.cpp -o $(BUILD)/operator
 	
+uni:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/uni_schema_generated.hpp $(FILES)/uni.cpp Makefile
+	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/uni.cpp -o $(BUILD)/uni $(LIBS) -Wno-unused-function -Wno-unused-variable
+	
 clean:
-	rm -rf *.o $(BUILD)/parser $(BUILD)/tpcc $(BUILD)/operator
+	rm -rf *.o $(BUILD)/parser $(BUILD)/tpcc $(BUILD)/operator $(BUILD)/uni
