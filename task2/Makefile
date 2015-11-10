@@ -22,7 +22,7 @@ tpcc:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/schema_generated.hpp $(FILES
 	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/transactions.cpp -o $(BUILD)/tpcc $(LIBS) -Wno-unused-function -Wno-unused-variable
 
 operator: $(FILES)/Schema.o $(FILES)/Parser.o $(FILES)/Schema.hpp $(FILES)/SchemaTypes.hpp $(FILES)/querygenerator.cpp $(FILES)/operator.hpp Makefile
-	$(CXX) $(CXXFLAGS) $(BUILD)/Parser.o $(BUILD)/Schema.o $(FILES)/querygenerator.cpp -o $(BUILD)/operator	
+	$(CXX) $(CXXFLAGS) $(BUILD)/Parser.o $(BUILD)/Schema.o $(FILES)/querygenerator.cpp -o $(BUILD)/operator
 	
 clean:
-	rm -rf *.o $(BUILD)/parser $(BUILD)/tpcc
+	rm -rf *.o $(BUILD)/parser $(BUILD)/tpcc $(BUILD)/operator
