@@ -2,3 +2,4 @@ task2/parser
 task2/tpcc
 task2/operator
 task2/*.o
+task2/fork
