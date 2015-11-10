@@ -1474,6 +1474,7 @@ void newOrder ( Integer w_id, Integer d_id, Integer c_id, Integer items, int32_t
             stock_relation[stock_primary_key[p4]].s_quantity = ( int32_t ) s_quantity+91-qty[index];
         }
 
+        
 
         /*if (supware[index]<>w_id) {
            update stock set s_remote_cnt=s_remote_cnt+1 where s_w_id=w_id and s_i_id=itemid[index];
@@ -1564,7 +1565,7 @@ int32_t nurand ( int32_t A,int32_t x,int32_t y )
 
 void newOrderRandom ( Timestamp now,int32_t w_id )
 {
-    int32_t d_id=urand ( 1,1 );
+    int32_t d_id=urand ( 1,10 );
     int32_t c_id=nurand ( 1023,1,3000 );
     int32_t ol_cnt=urand ( 5,15 );
 
@@ -1611,7 +1612,7 @@ int main ( int argc, char **argv )
     auto start=high_resolution_clock::now();
     for ( int i = 0; i < 1000000; i++ )
     {
-        newOrderRandom ( 39,5 );
+        newOrderRandom ( urand ( 1,1000 ),urand ( 1,5 ) );
     }
     cout << "insert " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
     cout <<  "order(" << order_count << ") orderline(" << orderline_count << ") neworder(" << neworder_count << ")" << endl;

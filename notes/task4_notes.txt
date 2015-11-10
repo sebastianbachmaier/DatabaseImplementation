@@ -1,0 +1,43 @@
+produce: call on root-> produce code
+consume: call from parent, passing the tuple
+
+tablescan:
+	.produce()
+		cout << "for(TID from 0 to R.size())"
+		parent.consume(this)
+selection
+	.produce()
+		child.produce()
+	.consume(op)
+		cout << "if(...){"
+			parent.consume(this);
+		cout << "}"
+print
+	.produce()
+		child.produce
+	.consumeop()
+		input.produce()
+		cout << "cout << ... << endl";
+hash inner equi join
+	.produce()
+		cout << "init HT"
+		left.produce()
+		right.produce()
+	.consume(op)
+		if(this==left)
+			cout << "store t in HT"
+		else
+			cout << "for t in HT"
+		parent.consume(this)
+
+Store Attributes not TIDs
+
+Do before:
+IU-Concept
+variablename
+variabletype
+
+Operators produces IU 
+getProduced();
+getRequired();
+

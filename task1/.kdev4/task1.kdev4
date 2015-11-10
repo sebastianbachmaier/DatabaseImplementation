@@ -10,7 +10,7 @@ ProjectRootRelative=./
 Build Directory Path=file:///home/sebastian/Dropbox/documents/tum/Sem8/DatabaseImplementation/task1/build
 Build Type=Debug
 CMake Binary=file:///usr/bin/cmake
-Environment Profile=default
+Environment Profile=
 Extra Arguments=
 Install Directory=file:///usr/local
 

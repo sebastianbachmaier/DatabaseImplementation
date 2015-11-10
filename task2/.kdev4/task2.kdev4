@@ -140,7 +140,7 @@ pattern=__pycache__
 targets=2
 
 [Launch]
-Launch Configurations=Launch Configuration 0,Launch Configuration 1
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -180,6 +180,24 @@ Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
 Dependency Action=Nothing
 EnvironmentGroup=
 Executable=file:///home/sebastian/Dropbox/documents/tum/Sem8/DatabaseImplementation/task2/tpcc
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=
+Use External Terminal=false
+Working Directory=
+isExecutable=true
+
+[Launch][Launch Configuration 2]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=operator
+Type=Native Application
+
+[Launch][Launch Configuration 2][Data]
+Arguments=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=
+Executable=file:///home/sebastian/Dropbox/documents/tum/Sem8/DatabaseImplementation/task2/operator
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=
 Use External Terminal=false

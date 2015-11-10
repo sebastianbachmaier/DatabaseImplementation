@@ -1,0 +1,50 @@
+select c_first,c_last,o_all_local,ol_amount 
+from customer, "order", orderline
+where o_w_id = c_w_id
+and o_d_id = c_d_id
+and o_c_id = c_id
+and o_w_id = ol_w_id
+and o_d_id = ol_d_id
+and o_id = ol_o_id
+and c_id = 322
+and c_w_id = 1
+and c_d_id = 1
+
+--> seperator
+PROJECTION: c_first,c_last,o_all_local,ol_amount 
+CROSSPRODUKT: customer, order, orderline
+SELECTION: o_w_id = c_w_id, o_d_id = c_d_id, o_c_id = c_id, o_w_id = ol_w_id, o_d_id = ol_d_id, o_id = ol_o_id,c_id = 322, c_w_id = 1, c_d_id = 1
+
+--> BINARY CROSSPRODUKT
+CROSSPRODUKT: ((customer, order), orderline)
+--> CROSSPRODUKT + SELECTION = JOIN
+PROJECTION: c_first,c_last,o_all_local,ol_amount 
+CROSSPRODUKT: A, orderline
+JOIN: customer ON order WHERE o_w_id = c_w_id, o_d_id = c_d_id, o_c_id = c_id (take all where customer is on one, and order is on the other side )
+SELECTION: o_w_id = ol_w_id, o_d_id = ol_d_id, o_id = ol_o_id,c_id = 322, c_w_id = 1, c_d_id = 1
+
+
+
+--> Query Parser
+
+		PROJECTION c_first, c_last,, o_all_local, ol_amount
+			  |
+			JOIN o_w_id = c_w_id, o_d_id = c_d_id, o_c_id = c_id
+			/	\
+SELECTION c_id = 322, c_w_id = 1, c_d_id = 1				
+	|						JOIN o_w_id = ol_w_id, o_d_id = ol_d_id, o_id = ol_o_id
+	|						/	\
+customer				order 	orderline
+
+--> optimised query plan
+
+											PROJECTION c_first, c_last,, o_all_local, ol_amount
+						 						  |
+						  						JOIN o_w_id = ol_w_id, o_d_id = ol_d_id, o_id = ol_o_id
+												/	  \
+				 				   			   /	   orderline
+											JOIN o_w_id = c_w_id, o_d_id = c_d_id, o_c_id = c_id
+											/		\
+SELECTION c_id = 322, c_w_id = 1, c_d_id = 1		order	
+	|						
+customer
