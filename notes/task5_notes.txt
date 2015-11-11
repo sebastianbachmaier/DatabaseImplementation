@@ -1,0 +1,4 @@
+get header file smaller
+running program is database with loaded tbl base
+first join condition is the deepest
+add to task4: multimap

@@ -639,6 +639,7 @@ static void SIGCHLD_handler ( int /*sig*/ )
 #define QUERY_FAST 1
 #define FORK_ON 0
 #define OLTP_QUERIES 1000000
+#define QUERY5_TEST 1
 
 int main ( int argc,  char** argv )
 {
@@ -648,8 +649,13 @@ int main ( int argc,  char** argv )
     init_tbl();
     cout << "Time: " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
     
+    
+#if QUERY5_TEST
+    start=high_resolution_clock::now();
     std::cout << query5();
+    cout << "Time: " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
     return 0;
+#else
     
     cout.precision ( 15 );
 
@@ -728,6 +734,7 @@ int main ( int argc,  char** argv )
 
 
     return 0;
+#endif
 # endif
 }
 // kate: indent-mode cstyle; indent-width 4; replace-tabs on; 

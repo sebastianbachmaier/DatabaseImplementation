@@ -53,7 +53,7 @@ int main( int argc, char* argv[] )
             QueryTree::Operator* scan1 = tree.insert(new QueryTree::Operator(5, QueryTree::Type::tablescan, schema->findRelation("Vorlesungen"))); 
             QueryTree::Operator* scan0 = tree.insert(new QueryTree::Operator(4, QueryTree::Type::tablescan, schema->findRelation("Studenten")));            
             //QueryTree::Operator* sele0 = tree.insert(new QueryTree::Operator(3, QueryTree::Type::selection, {"MatrNr"},"MatrNr == Integer(26120)", {scan0})); 
-            QueryTree::Operator* join1 = tree.insert(new QueryTree::Operator(2, QueryTree::Type::join, {"MatrNr", "s_MatrNr"}, "MatrNr == s_MatrNr", {scan0, scan2}));    
+            QueryTree::Operator* join1 = tree.insert(new QueryTree::Operator(2, QueryTree::Type::join, {"MatrNr", "s_MatrNr"}, "s_MatrNr == MatrNr", {scan0, scan2}));    
             QueryTree::Operator* join0 = tree.insert(new QueryTree::Operator(1, QueryTree::Type::join, {"VorlNr", "v_VorlNr"}, "VorlNr == v_VorlNr", {join1, scan1}));    
            
             QueryTree::Operator* proj0 = tree.insert(new QueryTree::Operator(0, QueryTree::Type::print, {"Name","Titel"}, {join0}));

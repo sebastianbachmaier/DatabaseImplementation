@@ -18,7 +18,7 @@ Types.o: $(FILES)/Types.cpp $(FILES)/Types.hpp Makefile
 parser: $(FILES)/Schema.o $(FILES)/Parser.o $(FILES)/Schema.hpp $(FILES)/SchemaTypes.hpp $(FILES)/main.cpp Makefile
 	$(CXX) $(CXXFLAGS) $(BUILD)/Parser.o $(BUILD)/Schema.o $(FILES)/main.cpp -o $(BUILD)/parser
 	
-tpcc:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/schema_generated.hpp $(FILES)/transactions.cpp Makefile
+tpcc:  $(FILES)/Types.o $(FILES)/Types.hpp $(FILES)/schema_schema_generated.hpp $(FILES)/query5_query_generated.hpp $(FILES)/transactions.cpp Makefile
 	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/transactions.cpp -o $(BUILD)/tpcc $(LIBS) -Wno-unused-function -Wno-unused-variable
 
 operator: $(FILES)/Schema.o $(FILES)/Parser.o $(FILES)/Schema.hpp $(FILES)/SchemaTypes.hpp $(FILES)/querygenerator.cpp $(FILES)/operator.hpp Makefile
