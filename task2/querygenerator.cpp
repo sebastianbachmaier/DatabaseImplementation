@@ -18,6 +18,11 @@ int main( int argc, char* argv[] )
        return -1;
     }
     std::string name(argv[1]);
+    
+    std::string cppFile = "\
+#include \""+name+"_schema_generated.hpp\"\n\
+";
+    
     std::string c("../tpc-c/"+name+".sql");
 
     Parser p ( c.c_str() );
@@ -28,7 +33,7 @@ int main( int argc, char* argv[] )
         schema = p.parse();
         if (!name.compare("schema"))
         {
-            QueryTree tree("query5");
+            QueryTree tree(name);
             
         
             QueryTree::Operator* scan2 = tree.insert(new QueryTree::Operator(6, QueryTree::Type::tablescan, schema->findRelation("order"))); 
@@ -40,14 +45,14 @@ int main( int argc, char* argv[] )
             QueryTree::Operator* proj0 = tree.insert(new QueryTree::Operator(0, QueryTree::Type::print, {"c_first","c_last","o_all_local","ol_amount"}, {join0}));
         
             std::ofstream query_generated;
-            query_generated.open ( tree.name+"_query_generated.hpp" );
+            query_generated.open ( tree.name+"_query_generated.cpp" );
+            query_generated << cppFile;
             query_generated << tree.produce(proj0);
             query_generated.close();
             
         }else if (!name.compare("uni"))
         {
-            
-            QueryTree tree("query4");
+            QueryTree tree(name);
             
             QueryTree::Operator* scan2 = tree.insert(new QueryTree::Operator(6, QueryTree::Type::tablescan, schema->findRelation("hoeren"))); 
             QueryTree::Operator* scan1 = tree.insert(new QueryTree::Operator(5, QueryTree::Type::tablescan, schema->findRelation("Vorlesungen"))); 
@@ -59,7 +64,8 @@ int main( int argc, char* argv[] )
             QueryTree::Operator* proj0 = tree.insert(new QueryTree::Operator(0, QueryTree::Type::print, {"Name","Titel"}, {join0}));
 
             std::ofstream query_generated;
-            query_generated.open ( tree.name+"_query_generated.hpp" );
+            query_generated.open ( tree.name+"_query_generated.cpp" );
+            query_generated << cppFile;
             query_generated << tree.produce(proj0);
             query_generated.close();
             

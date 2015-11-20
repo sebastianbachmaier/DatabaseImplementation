@@ -115,194 +115,10 @@ static std::string cpptype ( const Schema::Relation::Attribute& attr )
 std::string Schema::toCpp() const
 {
     std::stringstream out;
-
-    const std::set<std::string> str = {"neworder"};
-
-    /*
-     * headers
-     */
-    out << "#include <iostream>" << std::endl;
-    out << "#include <vector>" << std::endl;
-    out << "#include <string>" << std::endl;
-    out << "#include <map>" << std::endl;
-    out << "#include <unordered_map>" << std::endl;
-    out << "#include <fstream>" << std::endl;
-    out << "#include <sstream>" << std::endl;
-    out << "#include <exception>" <<  std::endl;
-    out << "#include \"hash.hpp\"" <<  std::endl;
-    out << "#include \"Types.hpp\"" << std::endl;
-    out << "#include <chrono>" << std::endl;
-
-
-    out << "using namespace std::chrono;" << std::endl;
-    out << "using namespace std;" << std::endl;
-
-    /*
-     * names
-     */
+    
     for ( const Schema::Relation& rel : relations )
     {
-        out << "string " << rel.name << "_name = \"" << rel.name << "\";" <<  std::endl;
-    }
-    out <<  std::endl;
-
-
-
-
-    /*
-     * structs
-     */
-
-    for ( const Schema::Relation& rel : relations )
-    {
-
-
-        out << std::endl;
-        out << "struct " << rel.name << "{" << std::endl;
-
-
-        for ( const auto& attr : rel.attributes )
-            out << '\t' << cpptype ( attr ) << ' ' << attr.name << ';' << std::endl;
-
-        out << "};" << std::endl;
-    }
-
-
-
-    /*
-     * row relations
-     */
-    for ( const Schema::Relation& rel : relations )
-    {
-        out << "std::vector<" << rel.name << "> " << rel.name << "_row_relation;" <<  std::endl;
-    }
-
-
-    /*
-     *
-     *
-     *
-     * COLUMNS
-     *
-     *
-     *
-     */
-
-
-    /*
-     * column relations
-     */
-    for ( const Schema::Relation& rel : relations )
-    {
-
-
-        out << std::endl;
-        out << "struct " << rel.name << "_column{" << std::endl;
-
-
-        for ( const auto& attr : rel.attributes )
-            out2 << "std::vector<" << cpptype ( attr ) << "> " << attr.name << ';' << std::endl;
-        
-        if (rel.attributes.size()>0)
-        {
-            out2 << "uint64_t size() { return " << rel.attributes.at(0).name << ".size(); }\n";
-            
-        }
-        out << "};" << std::endl;
-        out << rel.name << "_column " <<  rel.name << "_column_relation;" <<  std::endl;
-
-    }
-
-    out <<  std::endl;
-
-
-
-    /*
-    * primary indexes
-    */
-    for ( const Schema::Relation& rel : relations )
-    {
-
-
-        if ( !rel.primaryKey.empty() )
-        {
-            std::string primaryKeyType;
-            primaryKeyType += "std::tuple<";
-            for ( unsigned keyId :  rel.primaryKey )
-            {
-                primaryKeyType += cpptype ( rel.attributes[keyId] );
-                primaryKeyType += ( rel.primaryKey.back() != keyId ? ", ": ">" );
-            }
-            out << "using " << pkeyt << " = " << primaryKeyType << ";\n";
-        }
-    }
-    for ( const Schema::Relation& rel : relations )
-    {
-
-
-        if ( !rel.primaryKey.empty() )
-        {
-            if ( str.count ( rel.name ) > 0 )
-            {
-                out <<  "std::map<" << pkeyt << ", uint64_t>";
-            }
-            else
-            {
-                out <<  "std::unordered_map<" << pkeyt << ", uint64_t>";
-
-            }
-            out << ' ' << rel.name << "_primary_key;" <<  std::endl;
-
-        }
-
-
-    }
-
-    out <<  std::endl;
-
-    /*
-     * non primary indexes
-     */
-    for ( const Schema::Index& index : indexes )
-    {
-        const Schema::Relation& rel = relations[index.relation];
-        std::string indexType;
-        indexType += "std::tuple<";
-        for ( unsigned attrId : index.attributes )
-        {
-            indexType +=  cpptype ( rel.attributes[attrId] );
-            indexType += ( index.attributes.back() != attrId ? ", ": ">" );
-        }
-        out << "using " <<  ikeyt << " = " <<  indexType << ";\n";
-    }
-    for ( const Schema::Index& index : indexes )
-    {
-
-        const Schema::Relation& rel = relations[index.relation];
-        if ( str.count ( rel.name ) > 0 )
-        {
-            out <<  "std::map<" << ikeyt << ", uint64_t>";
-        }
-        else
-        {
-            out <<  "std::unordered_map<" << ikeyt << ", uint64_t>";
-        }
-
-        out << ' ' << index.name << "_index;" <<  std::endl;
-    }
-
-
-
-    /*
-     *
-     * column insert
-     *
-     */
-
-
-    for ( const Schema::Relation& rel : relations )
-    {
-        out << "bool " <<  rel.name << "_column_insert(" << rel.name << " element){" << std::endl;
+        out << "bool DATABASE::" <<  rel.name << "_column_insert(" << rel.name << " element){" << std::endl;
 
         /*std::string primaryKeyType;
         primaryKeyType += "std::tuple<";
@@ -353,7 +169,7 @@ std::string Schema::toCpp() const
 
     for ( const Schema::Relation& rel : relations )
     {
-        out << "bool " <<  rel.name << "_column_delete(uint64_t lineNr){" << std::endl;
+        out << "bool DATABASE::" <<  rel.name << "_column_delete(uint64_t lineNr){" << std::endl;
 
         out2 << "if (lineNr >= " << colrelp << rel.attributes[0].name << ".size())\n\t\treturn false;\n";
 
@@ -429,7 +245,9 @@ std::string Schema::toCpp() const
 
     for ( const Schema::Relation& rel : relations )
     {
-        out << "static void load_" << rel.name << "()" << std::endl;
+        
+         
+        out << "void DATABASE::load_" << rel.name << "()" << std::endl;
         out << "{" << std::endl;
         out << '\t' << "string line;" << std::endl;
         out << '\t' << "ifstream myfile;" << std::endl;
@@ -457,7 +275,7 @@ std::string Schema::toCpp() const
 
     out << std::endl;
 
-    out << "void init_tbl() {" << std::endl;
+    out << "void DATABASE::init_tbl() {" << std::endl;
     out2 <<  " auto start=high_resolution_clock::now();\n";
     for ( const Schema::Relation& rel : relations )
     {
@@ -467,7 +285,243 @@ std::string Schema::toCpp() const
 
     }
     out << "}" <<  std::endl;
+    return out.str();
+}
 
+std::string Schema::toHpp() const
+{
+    std::stringstream out;
+
+    const std::set<std::string> str = {"neworder"};
+
+    /*
+     * headers
+     */
+    out << "#ifndef _GEN_H_\n";
+    out << "#define _GEN_H_\n";
+    out << "#include <iostream>" << std::endl;
+    out << "#include <vector>" << std::endl;
+    out << "#include <string>" << std::endl;
+    out << "#include <map>" << std::endl;
+    out << "#include <unordered_map>" << std::endl;
+    out << "#include <fstream>" << std::endl;
+    out << "#include <sstream>" << std::endl;
+    out << "#include <exception>" <<  std::endl;
+    out << "#include \"hash.hpp\"" <<  std::endl;
+    out << "#include \"Types.hpp\"" << std::endl;
+    out << "#include <chrono>" << std::endl;
+
+
+    out << "using namespace std::chrono;" << std::endl;
+    out << "using namespace std;" << std::endl;
+
+    /*
+     * names
+     */
+#if 0
+    for ( const Schema::Relation& rel : relations )
+    {
+        out << "string " << rel.name << "_name = \"" << rel.name << "\";" <<  std::endl;
+    }
+#endif
+    out <<  std::endl;
+
+
+
+
+    /*
+     * structs
+     */
+
+    for ( const Schema::Relation& rel : relations )
+    {
+
+
+        out << std::endl;
+        out << "struct " << rel.name << "{" << std::endl;
+
+
+        for ( const auto& attr : rel.attributes )
+            out << '\t' << cpptype ( attr ) << ' ' << attr.name << ';' << std::endl;
+
+        out << "};" << std::endl;
+    }
+
+
+
+    /*
+     * row relations
+     */
+#if 0
+    for ( const Schema::Relation& rel : relations )
+    {
+        out << "std::vector<" << rel.name << "> " << rel.name << "_row_relation;" <<  std::endl;
+    }
+#endif
+
+    /*
+     *
+     *
+     *
+     * COLUMNS
+     *
+     *
+     *
+     */
+
+
+    /*
+     * column relations
+     */
+    for ( const Schema::Relation& rel : relations )
+    {
+
+
+        out << std::endl;
+        out << "struct " << rel.name << "_column{" << std::endl;
+
+
+        for ( const auto& attr : rel.attributes )
+            out2 << "std::vector<" << cpptype ( attr ) << "> " << attr.name << ';' << std::endl;
+        
+        if (rel.attributes.size()>0)
+        {
+            out2 << "uint64_t size() { return " << rel.attributes.at(0).name << ".size(); }\n";
+            
+        }
+        out << "};" << std::endl;
+    }
+
+    out <<  std::endl;
+
+
+
+    /*
+    * primary indexes
+    */
+    for ( const Schema::Relation& rel : relations )
+    {
+
+
+        if ( !rel.primaryKey.empty() )
+        {
+            std::string primaryKeyType;
+            primaryKeyType += "std::tuple<";
+            for ( unsigned keyId :  rel.primaryKey )
+            {
+                primaryKeyType += cpptype ( rel.attributes[keyId] );
+                primaryKeyType += ( rel.primaryKey.back() != keyId ? ", ": ">" );
+            }
+            out << "using " << pkeyt << " = " << primaryKeyType << ";\n";
+        }
+    }
+
+
+    out <<  std::endl;
+
+    /*
+     * non primary indexes
+     */
+    for ( const Schema::Index& index : indexes )
+    {
+        const Schema::Relation& rel = relations[index.relation];
+        std::string indexType;
+        indexType += "std::tuple<";
+        for ( unsigned attrId : index.attributes )
+        {
+            indexType +=  cpptype ( rel.attributes[attrId] );
+            indexType += ( index.attributes.back() != attrId ? ", ": ">" );
+        }
+        out << "using " <<  ikeyt << " = " <<  indexType << ";\n";
+    }
+    
+
+    
+    /*
+     * 
+     * 
+     * DATABASE OBJECT
+     * 
+     */
+    
+    /*
+    * primary indexes
+    */
+    
+    out << "struct DATABASE {\n";
+    
+    for ( const Schema::Relation& rel : relations )
+    {
+
+
+        if ( !rel.primaryKey.empty() )
+        {
+            if ( str.count ( rel.name ) > 0 )
+            {
+                out2 <<  "std::map<" << pkeyt << ", uint64_t>";
+            }
+            else
+            {
+                out2 <<  "std::unordered_map<" << pkeyt << ", uint64_t>";
+
+            }
+            out << ' ' << rel.name << "_primary_key;" <<  std::endl;
+
+        }
+    }
+    
+    /*
+     * non primary indexes
+     */
+    for ( const Schema::Index& index : indexes )
+    {
+
+        const Schema::Relation& rel = relations[index.relation];
+        if ( str.count ( rel.name ) > 0 )
+        {
+            out2 <<  "std::map<" << ikeyt << ", uint64_t>";
+        }
+        else
+        {
+            out2 <<  "std::unordered_map<" << ikeyt << ", uint64_t>";
+        }
+
+        out << ' ' << index.name << "_index;" <<  std::endl;
+    }
+    
+    /*
+     * Relations
+     */
+    
+    for ( const Schema::Relation& rel : relations )
+    {
+    
+        out2 << rel.name << "_column " <<  rel.name << "_column_relation;" <<  std::endl;
+
+    }
+
+    /*
+     *
+     * column insert
+     *
+     */
+
+    for ( const Schema::Relation& rel : relations )
+    {        
+        out << "void load_" << rel.name << "();" << std::endl;
+    }
+    for ( const Schema::Relation& rel : relations )
+    {
+        out << "bool " <<  rel.name << "_column_delete(uint64_t lineNr);" << std::endl;
+    };
+    for ( const Schema::Relation& rel : relations )
+    {
+        out << "bool " <<  rel.name << "_column_insert(" << rel.name << " element);" << std::endl;
+    }
+    out << "void init_tbl();" << std::endl;
+  
+    out << "};\n\n";
+    out << "#endif\n";
     return out.str();
 }
 

@@ -115,10 +115,10 @@ public:
     }
 
     /// implizitCast
-    inline operator uint32_t() const
+    /*inline operator uint32_t() const
     {
         return value;
-    }
+    }*/
     /// Cast
     static Integer castString ( const char* str,uint32_t strLen );
 };
@@ -836,6 +836,7 @@ public:
 
     Timestamp() {}
     Timestamp ( uint64_t value ) : value ( value ) {}
+    Timestamp ( Integer v ) : value ( v.value ) {}
 
     /// NULL
     static Timestamp null();

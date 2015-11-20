@@ -9,6 +9,10 @@ namespace keyword {
    const std::string Primary = "primary";
    const std::string Key = "key";
    const std::string Create = "create";
+   const std::string Select = "select";
+   const std::string Where = "where";
+   const std::string From = "from";
+   const std::string And = "and";
    const std::string Table = "table";
    const std::string Index = "index";
    const std::string On = "on";
@@ -25,31 +29,43 @@ namespace literal {
    const char ParenthesisLeft = '(';
    const char ParenthesisRight = ')';
    const char Comma = ',';
+   const char Star = '*';
    const char Semicolon = ';';
+   const char Equal = '=';
+   const char Apostroph = '\'';
 }
 
 std::unique_ptr<Schema> Parser::parse() {
+    
+    std::unique_ptr<Schema> s(new Schema());
+    std::ifstream in;
+    
+    in.open(fileName);
+    if (!in.is_open())
+      throw ParserError(1, "cannot open file '"+fileName+"'");
+    std::stringstream sstream;
+    sstream << in.rdbuf();
+    parse(*s, sstream);
+    return std::move(s);
+}
+
+
+void Parser::parse(Schema& s, std::stringstream& in) {
    std::string token;
    unsigned line=1;
-   std::unique_ptr<Schema> s(new Schema());
-   in.open(fileName.c_str());
-   if (!in.is_open())
-      throw ParserError(line, "cannot open file '"+fileName+"'");
    while (in >> token) {
       std::string::size_type pos;
       std::string::size_type prevPos = 0;
 
       while ((pos = token.find_first_of(",)(;", prevPos)) != std::string::npos) {
-         nextToken(line, token.substr(prevPos, pos-prevPos), *s);
-         nextToken(line, token.substr(pos,1), *s);
+         nextToken(line, token.substr(prevPos, pos-prevPos), s);
+         nextToken(line, token.substr(pos,1), s);
          prevPos=pos+1;
       }
-      nextToken(line, token.substr(prevPos), *s);
+      nextToken(line, token.substr(prevPos), s);
       if (token.find("\n")!=std::string::npos)
          ++line;
    }
-   in.close();
-   return std::move(s);
 }
 
 static bool isIdentifier(const std::string& str) {
@@ -58,6 +74,10 @@ static bool isIdentifier(const std::string& str) {
       str==keyword::Key ||
       str==keyword::Table ||
       str==keyword::Create ||
+      str==keyword::Select ||
+      str==keyword::From ||
+      str==keyword::Where ||
+      str==keyword::And ||
       str==keyword::On ||
       str==keyword::Index ||
       str==keyword::Integer ||
@@ -69,7 +89,7 @@ static bool isIdentifier(const std::string& str) {
       str==keyword::Char
    )
       return false;
-   return str.find_first_not_of("abcdefghijklmnopqrstuvwxyz_1234567890") == std::string::npos;
+   return str.find_first_not_of("'abcdefghijklmnopqrstuvwxyz_1234567890") == std::string::npos;
 }
 
 static bool isInt(const std::string& str) {
@@ -88,9 +108,34 @@ void Parser::nextToken(unsigned line, const std::string& token, Schema& schema) 
       case State::Init:
          if (tok==keyword::Create)
             state=State::Create;
+         else if (tok==keyword::Select)
+         {
+            state=State::Select;
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::print, {}, {})); 
+            opCount++;
+         }
          else
-            throw ParserError(line, "Expected 'CREATE', found '"+token+"'");
+            throw ParserError(line, "Expected 'CREATE' or 'Select', found '"+token+"'");
          break;
+     
+      case State::Select:
+        if (tok==keyword::From)
+            state=State::From;
+        else if (tok.size()==1 && tok[0]==literal::Star)
+        {
+            
+        }
+        else if (tok.size()==1 && tok[0]==literal::Comma)
+        {
+            
+        }
+        else if (isIdentifier(tok))
+        {
+            tree.operators.back()->requAttributes.push_back(token);
+        }
+        else 
+            throw ParserError(line, "Expected Attribute, found '"+token+"'");
+          break;
       case State::Create:
          if (tok==keyword::Table)
             state=State::Table;
@@ -119,7 +164,71 @@ void Parser::nextToken(unsigned line, const std::string& token, Schema& schema) 
          else
             throw ParserError(line, "Expected '(', found '"+token+"'");
          break;
-     
+     case State::From:
+         if (isIdentifier(tok)) {
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::tablescan, schema.findRelation(token)));
+            opCount++;
+            state = State::FromMult;
+         }else if (tok.size()==1 && tok[0] == literal::Comma)
+             break;
+          else if (tok==keyword::Where)
+            throw ParserError(line, "Expected TableName, found '"+token+"'");
+          else
+            throw ParserError(line, "Expected 'From', found '"+token+"'");
+         break;
+      case State::FromMult:
+         if (isIdentifier(tok)) {    
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::tablescan, schema.findRelation(token)));
+            opCount++;
+            // first do cross product
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::join, {}, "", {tree.operators.end()[-2], tree.operators.back()}));    
+            opCount++;
+         } else if (tok.size()==1 && tok[0] == literal::Comma)
+             break;
+         else if (tok.size()==1 && tok[0]==literal::Semicolon)
+         {
+            QueryTree::Operator* head = tree.operators.front();
+            head->addChild(tree.operators.back());   
+         }
+           else if (tok==keyword::Where) {
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::selection, {}, "", {tree.operators.back()}));    
+            opCount++;
+            state = State::Where;
+           }
+          else
+            throw ParserError(line, "Expected 'Where' or TableName, found '"+token+"'");
+         break;
+      case State::Where:
+         if (isIdentifier(tok)) { 
+            if (tok.size()>=1 && tok[0] == literal::Apostroph)
+            {
+                // string
+                std::string txt = token;
+                txt.front() = '"';
+                txt.back() = '"';
+                tree.operators.back()->condition += txt;
+                tree.operators.back()->joinMergable = false;
+            }else if (isInt(tok)){
+                // int
+                tree.operators.back()->condition += token;
+                tree.operators.back()->joinMergable = false;
+            }else{
+                // var
+                tree.operators.back()->requAttributes.push_back(token);
+                tree.operators.back()->condition += token;
+            }
+         } else if  (tok==keyword::And) {
+            tree.insert(new QueryTree::Operator(opCount, QueryTree::Type::selection, {}, "", {tree.operators.back()}));    
+            opCount++;
+         } else if (tok.size()==1 && tok[0] == literal::Equal){
+            tree.operators.back()->condition += " == ";
+         } else if (tok.size()==1 && tok[0] == literal::Semicolon) {
+            QueryTree::Operator* head = tree.operators.front();
+            head->addChild(tree.operators.back());
+         } else {
+            throw ParserError(line, "Expected 'Where', found '"+token+"'");
+         }
+         break;
      /*
       * 
       * Index

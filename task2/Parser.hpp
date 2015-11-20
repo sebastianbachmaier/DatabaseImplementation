@@ -7,21 +7,10 @@
 #include <fstream>
 #include <sstream>
 #include "Schema.hpp"
+#include "operator.hpp"
 
-class ParserError : std::exception {
-   std::string msg;
-   unsigned line;
-   public:
-   ParserError(unsigned line, const std::string& m) : msg(m), line(line) {}
-   ~ParserError() throw() {}
-   const char* what() const throw() {
-      return msg.c_str();
-   }
-};
 
 struct Parser {
-   std::string fileName;
-   std::ifstream in;
    enum class State : unsigned { 
        Init, 
        Create, 
@@ -30,6 +19,12 @@ struct Parser {
        CreateTableBegin, 
        CreateTableEnd, 
        TableName, 
+       
+       Select,
+       From, 
+       FromMult, 
+       Where, 
+
        
        Primary, 
        Key, 
@@ -69,12 +64,17 @@ struct Parser {
        Null, 
        Separator, 
        Semicolon};
+   std::string fileName;
    State state;
-   Parser(const std::string& fileName) : fileName(fileName), state(State::Init) {}
-   ~Parser() {};
+   Parser(const std::string& fileName) : fileName(fileName), state(State::Init), tree("schema"), opCount(0){}
+   //~Parser() {};
    std::unique_ptr<Schema> parse();
+   void parse(Schema& s,std::stringstream& in);
+   QueryTree tree;
+   unsigned opCount;
 
    private:
+          
    void nextToken(unsigned line, const std::string& token, Schema& s);
 };
 

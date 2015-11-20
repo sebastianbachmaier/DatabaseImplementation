@@ -12,20 +12,34 @@ int main ( int argc, char* argv[] )
        return -1;
     }
 
+    std::string tables("../tpc-c/schema.sql");
     std::string c("../tpc-c/"+std::string(argv[1])+".sql");
 
-    Parser p ( c.c_str() );
+    Parser p ( tables.c_str() );
     try
     {
         std::unique_ptr<Schema> schema;
         schema = p.parse();
+		std::ifstream in;
+		in.open(c);
+		if (!in.is_open())
+			throw ParserError(1, "cannot open file '"+c+"'");
+		p.parse(*schema,in);
+		auto& head = p.tree.operators.front();
+		p.tree.print(head);
         
         //std::cout << schema->relations.at(0).name;
 		//std::cout << schema->toCpp() << std::endl;
-        std::ofstream schema_generated;
-        schema_generated.open ( std::string(argv[1])+"_schema_generated.hpp" );
-        schema_generated << schema->toCpp();
-        schema_generated.close();
+        /*std::ofstream hpp_gen;
+        hpp_gen.open ( std::string(argv[1])+"_schema_generated.hpp" );
+        hpp_gen << schema->toHpp();
+        hpp_gen.close();
+		
+		std::ofstream cpp_gen;
+        cpp_gen.open ( std::string(argv[1])+"_schema_generated.cpp" );
+        cpp_gen << "#include \"" << std::string(argv[1]) << "_schema_generated.hpp\"\n";
+		cpp_gen << schema->toCpp();
+        cpp_gen.close();*/
     }
     catch ( ParserError& e )
     {

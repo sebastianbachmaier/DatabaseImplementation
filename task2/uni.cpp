@@ -24,7 +24,7 @@ using namespace std;
 using namespace tbb;
 using namespace std::chrono;
 
-#include "query4_query_generated.hpp"
+#include "uni_query_generated.cpp"
 
 int main ( int argc,  char** argv )
 {
@@ -32,10 +32,11 @@ int main ( int argc,  char** argv )
     
     cout <<  "loading tbl..." << endl;
     auto start=high_resolution_clock::now();
-    init_tbl();
+    DATABASE db;
+    db.init_tbl();
     cout << "Time: " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
     
-    std::cout << query4();
+    std::cout << query(&db);
 
     return 0;
 }

@@ -1,8 +1,14 @@
 task2/parser
 task2/tpcc
 task2/operator
+task2/interpreter
 task2/*.o
 task2/fork
 task2/uni
 task2/*_schema_generated.hpp
 task2/*_query_generated.hpp
+task2/*_query_generated.cpp
+task2/*_schema_generated.cpp
+task2/schema_query_generated_old.cpp
+task2/*.so
+dlexample

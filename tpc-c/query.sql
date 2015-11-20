@@ -1,0 +1,1 @@
+select d_name from district, order where d_w_id = o_w_id and o_d_id = d_id and o_id = 7;

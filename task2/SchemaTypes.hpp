@@ -17,7 +17,7 @@ enum class Tag : unsigned
 };
 }
 
-
+#if 0
 /**
  * Integer
  */
@@ -104,5 +104,6 @@ Numeric<len1,len2>::Numeric ( uint64_t pre, uint64_t decimal )
 {
     data = decimal + std::pow ( 10, len2 ) *pre;
 }
+#endif
 #endif
 // kate: indent-mode cstyle; indent-width 4; replace-tabs on; 

@@ -140,7 +140,7 @@ pattern=__pycache__
 targets=2
 
 [Launch]
-Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3
+Launch Configurations=Launch Configuration 0,Launch Configuration 1,Launch Configuration 2,Launch Configuration 3,Launch Configuration 4
 
 [Launch][Launch Configuration 0]
 Configured Launch Modes=execute
@@ -149,7 +149,7 @@ Name=task2
 Type=Native Application
 
 [Launch][Launch Configuration 0][Data]
-Arguments=
+Arguments=query
 Debugger Shell=
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
 Dependency Action=Nothing
@@ -218,6 +218,32 @@ EnvironmentGroup=
 Executable=file:///home/sebastian/Dropbox/documents/tum/Sem8/DatabaseImplementation/task2/uni
 External Terminal=konsole --noclose --workdir %workdir -e %exe
 Project Target=
+Use External Terminal=false
+Working Directory=
+isExecutable=true
+
+[Launch][Launch Configuration 4]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=interpreter
+Type=Native Application
+
+[Launch][Launch Configuration 4][Data]
+Arguments=
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+Display Demangle Names=true
+Display Static Members=false
+EnvironmentGroup=
+Executable=file:///home/sebastian/Dropbox/documents/tum/Sem8/DatabaseImplementation/task2/interpreter
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=
+Project Target=
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=ApplicationOutput
 Use External Terminal=false
 Working Directory=
 isExecutable=true

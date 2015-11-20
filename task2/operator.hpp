@@ -11,17 +11,19 @@
 #include "Schema.hpp"
 
 
-# define UP tree->out << ident(identLvl)
-# define UPP tree->out  << ident(identLvl+1)
+# define UP tree->out << identOp(identLvl)
+# define UPP tree->out  << identOp(identLvl+1)
+# define UPPP tree->out  << identOp(identLvl+2)
 
- const char *TypeNames[4] = 
+
+static const char *TypeNames[4] = 
     {
         "tablescan",
         "print",
         "join", 
         "selection"
     };
-    
+  
 
 
 struct FieldType
@@ -78,7 +80,7 @@ inline bool operator == (const FieldType& lhs, const FieldType& rhs)
 }
 
 
-std::string ident(unsigned identLvl)
+static std::string identOp(unsigned identLvl)
 {
     std::stringstream ss;
     for (unsigned i = 0;i < identLvl;i++)
@@ -165,8 +167,9 @@ struct QueryTree
         QueryTree::Type type;
         std::string condition;
         std::vector<std::string> requAttributes;
+        bool joinMergable;
         /// for tablescan
-        Schema::Relation* relation;
+        std::vector<Schema::Relation*> relation;
         /// Information Unit: type, name, requiredAs
         std::vector<informationUnitVector> neededAttributes; 
         std::vector<informationUnitVector> pushedAttributes; 
@@ -175,22 +178,28 @@ struct QueryTree
         QueryTree::Operator* parent;
         
         Operator(uint64_t id, QueryTree::Type t, std::vector<std::string> req,  std::vector<QueryTree::Operator*> ch) : 
-            operatorId(id), type(t), requAttributes(req), relation(nullptr), childs(ch), parent(nullptr)
+            operatorId(id), type(t), requAttributes(req),joinMergable(true), childs(ch), parent(nullptr)
         {
             for (auto&c : ch)
                 c->parent = this;
         }
         Operator(uint64_t id, QueryTree::Type t, std::vector<std::string> req, std::string op, std::vector<QueryTree::Operator*> ch) : 
-            operatorId(id), type(t), condition (op), requAttributes(req), relation(nullptr), childs(ch), parent(nullptr)
+            operatorId(id), type(t), condition (op), requAttributes(req),joinMergable(true), childs(ch), parent(nullptr)
         {
             for (auto&c : ch)
                 c->parent = this;
         }
         
-        /* constructor for tablescan */
-        Operator(uint64_t id, QueryTree::Type t, Schema::Relation* rel) : operatorId(id), type(t), parent(nullptr)
+        void addChild(QueryTree::Operator* op)
         {
-            relation = rel;
+            childs.push_back(op);
+            op->parent = this;
+        }
+        
+        /* constructor for tablescan */
+        Operator(uint64_t id, QueryTree::Type t, Schema::Relation* rel) : operatorId(id), type(t),joinMergable(true), parent(nullptr)
+        {
+            relation.push_back(rel);
         }
         
         void produce(unsigned identLvl)
@@ -199,11 +208,11 @@ struct QueryTree
             {
                 case QueryTree::Type::tablescan:
                 {
-                    UP << "for (unsigned var_" << relation->name << "_line = 0; var_" << relation->name << "_line < " << relation->name << "_column_relation.size(); var_" << relation->name << "_line++)\n";
+                    UP << "for (unsigned var_" << relation.at(0)->name << "_line = 0; var_" << relation.at(0)->name << "_line < db->" << relation.at(0)->name << "_column_relation.size(); var_" << relation.at(0)->name << "_line++)\n";
                     UP << "{\n";
                     for (auto& attr : pushedAttributes.at(0))
                     {
-                        UPP << attr.first.to_string() <<  "& " << attr.second << " = " << relation->name << "_column_relation." << attr.second << ".at(var_" << relation->name << "_line);\n";
+                        UPP << attr.first.to_string() <<  "& " << attr.second << " = db->" << relation.at(0)->name << "_column_relation." << attr.second << ".at(var_" << relation.at(0)->name << "_line);\n";
                     }
                     parent->consume(this, identLvl+1);
                     UP << "}\n";
@@ -216,11 +225,12 @@ struct QueryTree
                 }
                 case QueryTree::Type::join:
                 {
-                    UP << "std::unordered_map<tuple<";
+                    UP << "std::unordered_multimap<tuple<bool";
                     //condSideExpr(condition, neededAttributes.at(0), true);
                     auto buildAttributes = condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                     for (auto it=buildAttributes.begin(); it!=buildAttributes.end(); ++it)
-                        tree->out << it->first.first.to_string() << (std::next(it) != buildAttributes.end() ? ", " : "");
+                        tree->out << ',' <<  it->first.first.to_string();
+                        // << (std::next(it) != buildAttributes.end() ? ", " : "");
                     tree->out << ">, tuple<";
                     for (auto it=pushedAttributes.at(0).begin(); it!=pushedAttributes.at(0).end(); ++it)
                         tree->out << it->first.to_string() << (std::next(it) != pushedAttributes.at(0).end() ? ", " : "");           
@@ -262,36 +272,39 @@ struct QueryTree
                     /// left
                     if (child == childs.at(0))
                     {
-                        UP << "hashtable_op" << operatorId << ".insert({std::make_tuple(";
+                        UP << "hashtable_op" << operatorId << ".insert({std::make_tuple(true";
                         auto buildAttributes =  condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                         for (auto it=buildAttributes.begin(); it!=buildAttributes.end(); ++it)
-                            tree->out << it->first.second << (std::next(it) != buildAttributes.end() ? ", " : "");
+                            tree->out << ',' << it->first.second;
+                            // << (std::next(it) != buildAttributes.end() ? ", " : "");                            
                         tree->out << "), std::make_tuple(";
                         for (auto it=pushedAttributes.at(0).begin(); it!=pushedAttributes.at(0).end(); ++it)
                             tree->out << it->second << (std::next(it) != pushedAttributes.at(0).end() ? ", " : ""); 
                         tree->out << ")});\n";
                     /// right
                     }else{ 
-                        UP << "auto key" << operatorId << " = std::make_tuple(";
+                        UP << "auto key" << operatorId << " = std::make_tuple(true";
                         auto probeAttributes = condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                         for (auto it=probeAttributes.begin(); it!=probeAttributes.end(); ++it)
-                            tree->out << it->second.second << (std::next(it) != probeAttributes.end() ? ", " : "");
+                            tree->out << ',' << it->second.second;
+                              //<< (std::next(it) != probeAttributes.end() ? ", " : "");
                         tree->out << ");\n";
                         UP << "if ( hashtable_op" << operatorId << ".count (key" << operatorId << ") > 0 )\n";
                         UP << "{\n";
-                        UPP << "auto& value = hashtable_op" << operatorId << ".at(key" << operatorId << ");\n";
+                        UPP << "auto range = hashtable_op" << operatorId << ".equal_range(key" << operatorId << ");\n";
+                        UPP << "for (auto it = range.first; it != range.second; ++it) {\n";
                         unsigned i = 0; 
                         for (auto& p :  pushedAttributes.at(0))
                         {
-                            UPP << p.first.to_string() <<  "& " << p.second << " = " << "std::get<" << i << ">(value);\n";
+                            UPPP << p.first.to_string() <<  "& " << p.second << " = " << "std::get<" << i << ">(it->second);\n";
                             i++;
                         }
                         for (auto& p :  pushedAttributes.at(1))
                         {
-                            UPP << "/// " << p.first.to_string() <<  " " << p.second << ";\n";
+                            UPPP << "/// " << p.first.to_string() <<  " " << p.second << ";\n";
                         }
-                        parent->consume(this, identLvl+1);
-                        UP << "}\n";
+                        parent->consume(this, identLvl+2);
+                        UP << "\t}\n}\n";
                         
                         
                     }
@@ -310,13 +323,23 @@ struct QueryTree
         }
         
         
+        void cleanAttributes()
+        {
+            for (auto& op : childs)
+            {
+                op->cleanAttributes();   
+            }
+            this->neededAttributes.clear();
+            this->pushedAttributes.clear();
+        }
+        
         informationUnitVector 
         getAvailableAttributes(std::vector<std::string> requestedAttributes)
         {
             if (type ==  QueryTree::Type::tablescan)
             {
                 pushedAttributes.push_back({});
-                for (auto&attr  : relation->attributes )
+                for (auto&attr  : relation.at(0)->attributes )
                     
                     for (auto& r :  requestedAttributes)
                     {
@@ -358,18 +381,219 @@ struct QueryTree
                         
                     }
                 }
+                unsigned attrsize = 0;
+                for (auto& vec :  neededAttributes)
+                    attrsize += vec.size();
+                    
+                if (attrsize != requAttributes.size())
+                {
+                    for (auto& s_attr :  requAttributes)
+                    {
+                        bool found = false;
+                        for (auto& v_attr : neededAttributes)
+                        {
+                            for (auto& attr : v_attr)
+                            {
+                                if (attr.second == s_attr)
+                                {
+                                    found = true;
+                                }
+                            }  
+                        }
+                        if (!found)
+                            throw ParserError(0, "Unknown Attribute '"+s_attr+"'");
+                    }
+                }
                 return confirmedAttributes;
             }
             
-        }
-        
-        
-        
+        }  
     };
+    
+    static std::vector<Schema::Relation*>& allocateRelations(QueryTree::Operator* thisOp)
+    {
+        for (QueryTree::Operator* op : thisOp->childs)
+        {
+            std::vector<Schema::Relation*>& tmp = allocateRelations(op);
+            for (Schema::Relation* rel : tmp)
+            {
+                thisOp->relation.push_back(rel);
+            }   
+        }
+        return thisOp->relation;
+    }
+    
+    template <typename T>
+    static bool IsSubset(std::vector<T> A, std::vector<T> B)
+    {
+        std::sort(A.begin(), A.end());
+        std::sort(B.begin(), B.end());
+        return std::includes(A.begin(), A.end(), B.begin(), B.end());
+    }
+    
+
+    
+    static bool predPushdownSelc(QueryTree::Operator* thisOp,QueryTree::Operator* sel, Schema& schema, std::vector<Schema::Relation*> needed)
+    {
+        // merge selecttions -> dont do this
+        /*if (thisOp != sel && thisOp->type == QueryTree::Type::selection && thisOp->joinMergable == sel->joinMergable && std::is_permutation(thisOp->relation.begin(), thisOp->relation.end(), needed.begin()))
+        {
+            
+        print(thisOp->tree->operators.front());
+            // first delete selection from where it is
+            // parent 
+            for (unsigned i = 0; i  < sel->parent->childs.size(); i++)
+            {
+                if (sel->parent->childs.at(i) == sel)
+                    sel->parent->childs.at(i)  = sel->childs.at(0);
+            }
+            
+            // child
+            for (auto& ch :  sel->childs)
+                ch->parent = sel->parent;
+                
+            if (thisOp->condition.compare("") != 0)
+            {
+                thisOp->condition += " && "+sel->condition;
+            }
+            else{
+                thisOp->condition += sel->condition;
+            }
+    
+            for (auto& attr : sel->requAttributes)
+            {
+                thisOp->requAttributes.push_back(attr);
+            }
+            
+            return true;
+            
+        }*/
+        for (unsigned j = 0; j < thisOp->childs.size(); j++)
+        {
+            
+            if (IsSubset(thisOp->childs.at(j)->relation, needed))
+            {
+                if (thisOp->childs.at(j)->type == QueryTree::Type::tablescan && thisOp != sel )
+                {
+                    
+                    if (needed.size() == 1 && needed.at(0) == thisOp->childs.at(j)->relation.at(0))
+                    {
+                        std::cout << "insert " << sel->condition <<  " below " << TypeNames[(unsigned)thisOp->type] << " and " << TypeNames[(unsigned)thisOp->childs.at(j)->type] << std::endl;
+                        print(thisOp->tree->operators.front());
+                        // best to put selection right above tablescan
+                        // first delete selection from where it is
+                        // parent
+                        for (unsigned i = 0; i  < sel->parent->childs.size(); i++)
+                        {
+                            if (sel->parent->childs.at(i) == sel)
+                            {
+                                sel->parent->childs.at(i)  = sel->childs.at(0);
+                            }
+                        }
+                        // child
+                        for (auto& ch :  sel->childs)
+                            ch->parent = sel->parent;
+                        //place child in    
+                        thisOp->childs.at(j)->parent = sel;
+                        sel->childs.at(0) = thisOp->childs.at(j);
+                        thisOp->childs.at(j) = sel;
+                        sel->parent = thisOp;
+                        return true;
+                    }
+                } else if (predPushdownSelc(thisOp->childs.at(j), sel, schema, needed))
+                {
+                    return true;
+                }
+            }
+        }
+        // not further pushable, insert in join here?
+        if (thisOp->type == QueryTree::Type::join && sel->joinMergable)
+        {
+            
+        print(thisOp->tree->operators.front());
+           // best to put selection right above tablescan
+           // first delete selection from where it is
+           // parent
+            for (unsigned i = 0; i  < sel->parent->childs.size(); i++)
+            {
+                if (sel->parent->childs.at(i) == sel)
+                {
+                    sel->parent->childs.at(i)  = sel->childs.at(0); 
+                }
+            }
+            // child
+            for (auto& ch :  sel->childs)
+                ch->parent = sel->parent;
+            // push condition to join
+            
+            if (thisOp->condition.compare("") != 0)
+            {
+                thisOp->condition += " && "+sel->condition;
+            }
+            else{
+                thisOp->condition += sel->condition;
+            }
+    
+            for (auto& attr : sel->requAttributes)
+            {
+                thisOp->requAttributes.push_back(attr);
+            }
+                
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    static void predPushdown(QueryTree::Operator* thisOp, Schema& schema)
+    {
+        print(thisOp->tree->operators.front());
+        bool rerun = true;
+        while (rerun)
+        {
+            rerun = false;
+            for (QueryTree::Operator* op : thisOp->childs)
+            {
+                if (op->type == QueryTree::Type::selection)
+                {
+                    // check if it's a selection to tablescan row
+                    QueryTree::Operator* tmp = op;
+                    while (tmp->type == QueryTree::Type::selection)
+                        tmp = tmp->childs.at(0);
+                    if (tmp->type == QueryTree::Type::tablescan && op != tmp)
+                        continue;
+                    std::vector<Schema::Relation*> rels;
+                    for (std::string name : op->requAttributes)
+                        rels.push_back(schema.relAttrLookup(name).first);
+                    if (predPushdownSelc(op,op, schema, rels))
+                    {
+                        // children may have changes
+                        rerun = true;
+                        break;
+                    }
+                }
+                predPushdown(op, schema);
+            }
+        }
+    }
+    
+# define DEBUG 1
+    
+    static void optimizeQuery(QueryTree::Operator* head, Schema& schema)
+    {      
+        print(head);  
+        std::cout << "RelationAllocate" << std::endl;
+        allocateRelations(head);
+        print(head);
+        std::cout << "Predicate Pushdown" << std::endl;
+        predPushdown(head, schema);
+        print(head);
+    }
 
     std::string name;
     std::stringstream out;
     std::vector<QueryTree::Operator*> operators;
+
     
     QueryTree::Operator* insert(QueryTree::Operator* op)
     {
@@ -380,8 +604,11 @@ struct QueryTree
      
     std::string produce(QueryTree::Operator* head)
     {
-        head->getAvailableAttributes({});
-        out << "std::string " << name << "()\n{\n";
+        
+        if (head->neededAttributes.empty())
+            head->getAvailableAttributes({});
+        out << "#include \"query_additions.hpp\"\n";
+        out << "extern \"C\" std::string " << "query" << "(DATABASE* db)\n{\n";
         out << "\tstd::stringstream out;\n";
         head->produce(1);
         out << "\treturn out.str();\n";
@@ -392,6 +619,34 @@ struct QueryTree
     
     QueryTree(std::string n) : name(n) {
        
+    }
+    
+    static void print(QueryTree::Operator* head)
+    {
+# if DEBUG
+      std::cout << std::endl;
+      std::vector<QueryTree::Operator*> current {head};
+      while(!current.empty())
+      {
+        std::vector<QueryTree::Operator*> tmp;
+        for (auto op :  current)
+        {
+            for (auto ch : op->childs)
+                tmp.push_back(ch);
+            std::string needs;
+            std::string rels;
+            for (auto s : op->requAttributes)
+                needs += s+",";            
+            for (auto s : op->relation)
+                rels += s->name+",";
+            std::cout << TypeNames[(int)op->type] << '(' << (op->relation.size()>0 ? rels : "inherit") << '|'<< needs << '|' << op->condition << ")\t";
+        }
+        std::cout << std::endl;
+        current = tmp;
+        
+      }
+      std::cout <<  std::endl;
+#   endif
     }
     
     ~QueryTree() {
