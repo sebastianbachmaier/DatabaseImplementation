@@ -1,4 +1,54 @@
+#ifndef HASH_H
+#define HASH_H
 #include "Types.hpp"
+
+#if 0
+
+
+namespace tbb{
+    namespace interface5{
+        
+        
+        template <class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1>
+        struct __HashValueImpl
+        {
+            inline static void apply ( size_t& seed, Tuple const& tuple )
+            {
+                using elType = typename std::tuple_element<Index,Tuple>::type;
+                __HashValueImpl<Tuple, Index-1>::apply ( seed, tuple );
+                seed ^= tbb::interface5::tbb_hasher<elType> (std::get<Index> ( tuple ) );
+            }
+        };
+
+        template <class Tuple>
+        struct __HashValueImpl<Tuple,0>
+        {
+            inline static void apply ( size_t& seed, Tuple const& tuple )
+            {
+                using elType = typename std::tuple_element<0,Tuple>::type;
+                seed ^= tbb::interface5::tbb_hasher<elType> (std::get<0> ( tuple ) );
+            }
+        };
+
+        
+        template <typename ...TT>
+        inline size_t tbb_hasher(const std::tuple<TT...>& tt ) {
+            size_t seed = 0;
+            __HashValueImpl<std::tuple<TT...>>::apply(seed, tt);// * internal::hash_multiplier;
+            return seed;
+        }
+        
+    }
+
+    template <typename ...TT>
+    size_t tbb::tbb_hash<TT...>::operator()(const std::tuple<TT...>& key)
+    {
+        return tbb_hasher<TT...>(key);
+    }
+}
+
+#endif
+
 
 namespace std
 {
@@ -73,3 +123,4 @@ struct hash<Varchar<16>>
 
 }
 // kate: indent-mode cstyle; indent-width 4; replace-tabs on; 
+#endif

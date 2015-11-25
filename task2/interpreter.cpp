@@ -10,7 +10,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <atomic>
-#include <tbb/tbb.h>
 #include <unordered_map>
 #include <sys/mman.h>
 #include <math.h>
@@ -24,13 +23,26 @@
 #include <sys/wait.h>
 #include <dlfcn.h>
 
+#include <tbb/concurrent_unordered_map.h>
+#include <tbb/tbb.h>
+
+#include "query_additions.hpp"
+
 
 using namespace std;
 using namespace tbb;
 using namespace std::chrono;
 
+//#include "schema_query_generated.cpp"
+
+
 int main(void)
 {
+    
+    tbb::task_scheduler_init init(MaxThreads);
+
+    
+    
     DATABASE db;
     
     srand ( time ( NULL ) );
@@ -52,17 +64,25 @@ int main(void)
     Parser pSchema ( tables.c_str() );
     std::unique_ptr<Schema> schema;
     schema = pSchema.parse();
+    bool conc = true;
+    
+
+    //void* tbb_so = dlopen("libtbb.so.2",RTLD_GLOBAL);
     
     while (1)
     {
+        std::cout << "run\n";
         try{
-
+                
                 /*std::ifstream in;
                 in.open(c);
                 if (!in.is_open())
                     throw ParserError(1, "cannot open file '"+c+"'");*/
                 Parser p ( "" );
-                std::string input;                          // = "select o_id, ol_dist_info from order, orderline where o_id = ol_o_id and ol_d_id = o_d_id and o_w_id = ol_w_id and ol_number = 1 and ol_o_id = 100;";
+                p.tree.concurrent = conc;
+                std::cout << "concurrent " << (p.tree.concurrent  ? "true" : "false")  << " ('conc;' to change)\n";
+                std::string input = "";
+                // = "select o_id, ol_dist_info from order, orderline where o_id = ol_o_id and ol_d_id = o_d_id and o_w_id = ol_w_id and ol_number = 1 and ol_o_id = 100;";
                 //sql << in.rdbuf();
                 cout << "SQL (enter 'exit;' to terminate, querys end with ';'):\n>";
                 std::cin.clear();
@@ -71,13 +91,20 @@ int main(void)
                 getline(std::cin, input, ';');
                     
                 std::cout << input << std::endl;
-                std::size_t found = input.find("exit");
-                if (found!=std::string::npos)
+                std::size_t foundExit = input.find("exit");
+                if (foundExit!=std::string::npos)
                     return 0;
+                std::size_t foundConc = input.find("conc");
+                if (foundConc!=std::string::npos)
+                {
+                    conc = !conc;
+                    continue;
+                }
                 std::stringstream sql(input+";");
                 //in << sql;
                 p.parse(*schema,sql);
                 auto& head = p.tree.operators.front();
+                
                 p.tree.optimizeQuery(head, *schema);
                 queryString = p.tree.produce(head);
             
@@ -87,9 +114,7 @@ int main(void)
 
             std::ofstream query_generated;
             query_generated.open ( "schema_query_generated.cpp" );
-            std::string cppFile = "\
-            #include \"schema_schema_generated.hpp\"\n\
-            ";
+            std::string cppFile = "#include \"schema_schema_generated.hpp\"\n";
             query_generated << cppFile;
             query_generated << queryString;
             query_generated.close();
@@ -100,7 +125,7 @@ int main(void)
             cout << "compile query...\n";
             if(!vfork()){
                 //execlp("g++","g++","-O3", "-std=c++11", "-g", (input + "_query_generated.cpp").c_str(),"-lm", "-shared","-fPIC", "-o", "query.so", nullptr);
-                execlp("make", "make","--silent", "sharedquery", "-j4", nullptr);
+                execlp("make", "make","--silent","-B", "sharedquery", "-j4", nullptr);
             }   
             wait(NULL);
             cout << "Time: " << duration_cast<duration<double>> ( high_resolution_clock::now()-start ).count() << "s" << endl;
@@ -132,6 +157,8 @@ int main(void)
         }
 
     }
+
+    //dlclose(tbb_so);
     return 0;
 }
                 

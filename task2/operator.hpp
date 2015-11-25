@@ -208,7 +208,18 @@ struct QueryTree
             {
                 case QueryTree::Type::tablescan:
                 {
-                    UP << "for (unsigned var_" << relation.at(0)->name << "_line = 0; var_" << relation.at(0)->name << "_line < db->" << relation.at(0)->name << "_column_relation.size(); var_" << relation.at(0)->name << "_line++)\n";
+                    if (tree->concurrent)
+                    {   
+                        UP << "tbb::parallel_for ( tbb::blocked_range<size_t> ( 0, db->" << relation.at(0)->name << "_column_relation.size() ), [&] ( const tbb::blocked_range<size_t>& range ){\n";
+                        //UP << "int threadID = (((double)db->" << relation.at(0)->name << "_column_relation.size()/(double)range.size())*((double)range.begin()/(double)db->" << relation.at(0)->name << "_column_relation.size()));\n";
+                        //UP << "std::cout << threadID << std::endl;\n";
+                        //UP <<  "int threadID = std::atomic_fetch_add(&concout.currentT, 1);\n";
+                        UP << "std::stringstream& out= *concout.conc_add();\n";
+                        UP << "for (unsigned var_" << relation.at(0)->name << "_line = range.begin(); var_" << relation.at(0)->name << "_line < range.end(); var_" << relation.at(0)->name << "_line++)\n";
+                    
+                    }else{
+                        UP << "for (unsigned var_" << relation.at(0)->name << "_line = 0; var_" << relation.at(0)->name << "_line < db->" << relation.at(0)->name << "_column_relation.size(); var_" << relation.at(0)->name << "_line++)\n";
+                    }
                     UP << "{\n";
                     for (auto& attr : pushedAttributes.at(0))
                     {
@@ -216,6 +227,10 @@ struct QueryTree
                     }
                     parent->consume(this, identLvl+1);
                     UP << "}\n";
+                    if (tree->concurrent)
+                    {
+                        UP << "} );\n";                     //concout.currentT = 0;\n";
+                    }
                     break;
                 }
                 case QueryTree::Type::selection:
@@ -225,16 +240,26 @@ struct QueryTree
                 }
                 case QueryTree::Type::join:
                 {
-                    UP << "std::unordered_multimap<tuple<bool";
-                    //condSideExpr(condition, neededAttributes.at(0), true);
+                    UP << "using joinKeyType" << operatorId << " = tuple<bool";
                     auto buildAttributes = condSideExpr(condition, neededAttributes.at(0), neededAttributes.at(1));
                     for (auto it=buildAttributes.begin(); it!=buildAttributes.end(); ++it)
                         tree->out << ',' <<  it->first.first.to_string();
+                    tree->out << ">;\n";
+                    if (tree->concurrent)
+                    {
+                        UP << "tbb::concurrent_unordered_multimap<joinKeyType" << operatorId;
+                    }else{
+                        UP << "std::unordered_multimap<joinKeyType" << operatorId;
+                    }
+                    //condSideExpr(condition, neededAttributes.at(0), true);
+                   
                         // << (std::next(it) != buildAttributes.end() ? ", " : "");
-                    tree->out << ">, tuple<";
+                    tree->out << ", tuple<";
                     for (auto it=pushedAttributes.at(0).begin(); it!=pushedAttributes.at(0).end(); ++it)
                         tree->out << it->first.to_string() << (std::next(it) != pushedAttributes.at(0).end() ? ", " : "");           
-                    tree->out << ">> hashtable_op" << operatorId << ";\n";
+                    if (tree->concurrent)
+                        tree->out << ">, hash<joinKeyType" << operatorId;
+                    UP  << ">> hashtable_op" << operatorId << ";\n";
                     childs.at(0)->produce(identLvl);
                     
                     childs.at(1)->produce(identLvl);
@@ -312,10 +337,20 @@ struct QueryTree
                 }
                 case QueryTree::Type::print:
                 {
-                    UP << "out << ";
-                    for (auto it=neededAttributes.at(0).begin(); it!=neededAttributes.at(0).end(); ++it)
-                          tree->out  <<  it->second << (std::next(it) != neededAttributes.at(0).end() ? "<<'|'<<" : "<<");
-                    tree->out <<  "std::endl;\n";
+                    if (tree->concurrent)
+                    {
+                        //UP << "std::cout << \"init\" << threadID << std::endl;\n";
+                        //UP << "*(concout.cout[threadID])";
+                        UP << "out ";
+                        for (auto it=neededAttributes.at(0).begin(); it!=neededAttributes.at(0).end(); ++it)
+                            tree->out  << " << " <<   it->second << (std::next(it) != neededAttributes.at(0).end() ? " << '|'" : " << std::endl;");
+                        tree->out <<  "\n";
+                    }else{
+                        UP << "out << ";
+                        for (auto it=neededAttributes.at(0).begin(); it!=neededAttributes.at(0).end(); ++it)
+                            tree->out  <<  it->second << (std::next(it) != neededAttributes.at(0).end() ? "<<'|'<<" : "<<");
+                        tree->out <<  "std::endl;\n";
+                    }
                     break;
                 }
                 throw;
@@ -593,6 +628,7 @@ struct QueryTree
     std::string name;
     std::stringstream out;
     std::vector<QueryTree::Operator*> operators;
+    bool concurrent;
 
     
     QueryTree::Operator* insert(QueryTree::Operator* op)
@@ -608,16 +644,34 @@ struct QueryTree
         if (head->neededAttributes.empty())
             head->getAvailableAttributes({});
         out << "#include \"query_additions.hpp\"\n";
+        if (this->concurrent)
+        {
+            out << "#include <tbb/concurrent_unordered_map.h>\n";
+            out << "#include <tbb/tbb.h>\n";
+            out << "#include <tbb/task_scheduler_init.h>\n";
+        }
         out << "extern \"C\" std::string " << "query" << "(DATABASE* db)\n{\n";
-        out << "\tstd::stringstream out;\n";
+        if (this->concurrent)
+        {
+            out << "\ttbb::task_scheduler_init init(MaxThreads);\n";
+            //out << "\tinit.initialize(MaxThreads);\n";
+            out << "\tconc concout;\n";
+        }else{
+            out << "\tstd::stringstream out;\n"; 
+        }
         head->produce(1);
-        out << "\treturn out.str();\n";
+        if (this->concurrent)
+        {
+            out << "\treturn concout.show();\n";
+        }else{
+            out << "\treturn out.str();\n";
+        }
         out << "}\n";
         return out.str();
     }
     
     
-    QueryTree(std::string n) : name(n) {
+    QueryTree(std::string n) : name(n), concurrent(false){
        
     }
     

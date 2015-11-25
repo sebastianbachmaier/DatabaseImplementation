@@ -1,8 +1,9 @@
 CXX:=g++
-CXXFLAGS:=-std=c++11 -g -O3 -Wall
-LIBS := -ltbb -lstdc++
+CXXFLAGS:=-std=c++11 -g -O3 -Wall -fPIC
 BUILD:=.
 FILES:=.
+LIBS := -lstdc++ -ldl -lrt  -ltbb 
+
 
 all: parser tpcc
 
@@ -31,11 +32,11 @@ uni:  $(BUILD)/Types.o $(FILES)/Types.hpp $(FILES)/uni_schema_generated.hpp $(FI
 	$(CXX) $(CXXFLAGS) $(BUILD)/Types.o $(FILES)/uni.cpp -o $(BUILD)/uni $(LIBS) -Wno-unused-function -Wno-unused-variable
 
 interpreter:  $(BUILD)/Parser.o $(BUILD)/Schema.o $(BUILD)/Database.o $(BUILD)/Types.o $(FILES)/operator.hpp  $(FILES)/Parser.hpp  $(FILES)/Parser.cpp $(FILES)/Types.hpp $(FILES)/interpreter.cpp Makefile
-	$(CXX) $(CXXFLAGS) $(BUILD)/Database.o $(BUILD)/Parser.o $(BUILD)/Schema.o $(BUILD)/Types.o $(FILES)/interpreter.cpp -o $(BUILD)/interpreter $(LIBS) -lrt -ldl -Wno-unused-function -Wno-unused-variable
+	$(CXX) $(CXXFLAGS) -fPIC $(BUILD)/Database.o $(BUILD)/Parser.o $(BUILD)/Schema.o $(BUILD)/Types.o $(FILES)/interpreter.cpp -o $(BUILD)/interpreter $(LIBS) -Wno-unused-function -Wno-unused-variable
 
 #dont use O3 on this one
 sharedquery:  Types.o
-	$(CXX) -std=c++11 -g -O0 -Wall $(BUILD)/Types.o $(BUILD)/Database.o $(FILES)/schema_query_generated.cpp -shared -fPIC  -o $(BUILD)/query.so
+	$(CXX) -std=c++11 -g -O0 -Wall $(BUILD)/Types.o $(BUILD)/Database.o $(FILES)/schema_query_generated.cpp -shared -fPIC -Wno-unused-function -Wno-unused-variable  -o $(BUILD)/query.so  $(LIBS)
 
 clean:
 	rm -rf *.o *.so $(BUILD)/parser $(BUILD)/tpcc $(BUILD)/operator $(BUILD)/uni $(BUILD)/interpreter
